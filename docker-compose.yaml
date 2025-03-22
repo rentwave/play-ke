@@ -15,7 +15,7 @@ services:
       - .:/usr/local/app
     environment:
       - NODE_ENV=stage
-      - PORT=3004  
+      - PORT=3009 
     networks:
       - stage-network 
 
