@@ -47,7 +47,7 @@ jobs:
           tags: osiru/playkefrontend:${{ env.docker_tag }}
           platforms: linux/amd64
           build-args: |
-            BASE_URL=https://api.rentwaveafrica.co.ke/api
+            BASE_URL=https://playke/api
 
       - name: Deploy to Server via SSH
         uses: appleboy/ssh-action@master
@@ -58,7 +58,8 @@ jobs:
           key: ${{ secrets.PASSWORD_SSH_KEY }}
           script: |
             cd /srv/apps/play-ke/ || { echo "Failed to cd"; exit 1; }
-            git pull origin develop
+            git stash
+            git pull origin main
 
             # Set the latest Docker tag
             LATEST_TAG="${{ env.docker_tag }}"
@@ -67,8 +68,8 @@ jobs:
               exit 1
             fi
 
-            # Update the .env file with the new Docker tag
-            echo "FRONTEND_TAG=${LATEST_TAG}" > .env
+            # Append to .env instead of overwriting it
+            echo "FRONTEND_TAG=${LATEST_TAG}" >> .env
             echo "Updated .env file with FRONTEND_TAG=${LATEST_TAG}"
 
             # Pull the latest Docker image and restart the container
