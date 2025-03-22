@@ -1,9 +1,8 @@
 "use client";
 
-import Layout from "../Components/Layout/Layout";
-import { ThemeProvider } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
-import theme from "@/theme/theme";
+// import { ThemeProvider } from "@mui/material/styles";
+// import CssBaseline from "@mui/material/CssBaseline";
+// import theme from "@/theme/theme";
 
 export default function RootLayout({
   children,
@@ -13,7 +12,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Layout>{children}</Layout>
+        {children}
       </body>
     </html>
   );
