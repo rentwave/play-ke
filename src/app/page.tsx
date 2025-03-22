@@ -1,9 +1,9 @@
 "use client";
 import Image from 'next/image';
-import { Container, Typography, Button, Box, Grid } from '@mui/material';
+import { Typography, Button, Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-const HeroSection = styled(Box)(({ theme }) => ({
+const HeroSection = styled(Box)(({ }) => ({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
@@ -15,7 +15,7 @@ const HeroSection = styled(Box)(({ theme }) => ({
   padding: '20px',
 }));
 
-const CTAButton = styled(Button)(({ theme }) => ({
+const CTAButton = styled(Button)(({ }) => ({
   marginTop: '20px',
   backgroundColor: '#D32F2F', // Red
   color: '#fff',
@@ -26,12 +26,6 @@ const CTAButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-const TrendingSection = styled(Container)(({ theme }) => ({
-  marginTop: '50px',
-  padding: '20px',
-  textAlign: 'center',
-  color: '#fff',
-}));
 
 export default function Home() {
   return (
