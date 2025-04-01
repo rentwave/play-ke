@@ -108,13 +108,10 @@ const Footer = styled(Box)({
     width: "100%",
     position: "absolute",
     bottom: "0",
-    padding: "15px 0",
     textAlign: "center",
     color: "#fff",
     fontSize: "0.875rem",
     backgroundColor: "#111",
-    color: "#fff",
-    textAlign: "center",
     padding: "18px 0",
 });
 

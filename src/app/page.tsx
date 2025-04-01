@@ -42,7 +42,7 @@ const CTAButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-const LoginButton = styled(Button)(({ theme }) => ({
+const LoginButton = styled(Button)(({ }) => ({
   backgroundColor: "#e50914",
   color: "#fff",
   fontSize: "0.9rem",
@@ -73,13 +73,13 @@ export default function Home() {
 
             <Box sx={{ display: "flex", alignItems: "center", gap: 3 }}>
               <Link href="/about" passHref legacyBehavior>
-                <Typography component="a" variant="body1" sx={{ color: "#fff", textDecoration: "none", "&:hover": { color: "#e50914" } }}>
+                <Typography variant="body1" sx={{ color: "#fff", textDecoration: "none", "&:hover": { color: "#e50914" } }}>
                   About
                 </Typography>
               </Link>
 
               <Link href="/auth/signin" passHref legacyBehavior>
-                <LoginButton component="a" variant="contained" size="small">Login</LoginButton>
+                <LoginButton variant="contained" size="small">Login</LoginButton>
               </Link>
             </Box>
           </Toolbar>
