@@ -1,7 +1,6 @@
 "use client";
-import { Box, Button, TextField, Typography, Divider } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import Link from "next/link";
 import Image from "next/image";
 
 const Wrapper = styled("div")({
@@ -62,32 +61,6 @@ const InputField = styled(TextField)({
     },
     "& .MuiInputLabel-root.Mui-focused, & .MuiInputLabel-shrink": {
         color: "#e50914",
-    },
-});
-
-const OrDivider = styled(Divider)({
-    color: "#fff",
-    fontWeight: "bold",
-    textTransform: "uppercase",
-    margin: "20px 0",
-});
-
-const SocialButton = styled(Button)({
-    width: "100%",
-    padding: "10px",
-    borderRadius: "30px",
-    marginBottom: "10px",
-    textTransform: "none",
-    fontSize: "1rem",
-    backgroundColor: "#0D0D0D",
-    border: "1px solid #333",
-    color: "#fff",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: "10px",
-    "&:hover": {
-        backgroundColor: "#1A1A1A",
     },
 });
 
