@@ -1,5 +1,5 @@
 "use client";
-import { Box, Button, TextField, Typography, Divider, FormControlLabel, Checkbox } from "@mui/material";
+import { Box, Button, TextField, Typography, FormControlLabel, Checkbox } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Link from "next/link";
 import Image from "next/image";
