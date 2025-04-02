@@ -1,16 +1,13 @@
 "use client";
 import { Box, Button, TextField, Typography, Divider } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import GoogleIcon from "@/app/Components/Icons/Google";
-import AppleIcon from "@/app/Components/Icons/Apple";
-import FacebookIcon from "@/app/Components/Icons/Facebook";
 import Link from "next/link";
 import Image from "next/image";
 
 const Wrapper = styled("div")({
     minHeight: "100vh",
     display: "flex",
-    flexDirection: "column", // Ensure the footer stays at the bottom
+    flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#000",
@@ -25,8 +22,10 @@ const FormContainer = styled(Box)(({ theme }) => ({
     maxWidth: "400px",
     textAlign: "center",
     boxShadow: "0px 4px 10px rgba(255, 255, 255, 0.1)",
+    display: "flex",
+    flexDirection: "column",
+    minHeight: "600px", // Increased height
 
-    // Make background black on small screens
     [theme.breakpoints.down("sm")]: {
         backgroundColor: "#000",
     },
@@ -100,6 +99,7 @@ const NextButton = styled(Button)({
     color: "#fff",
     fontSize: "1rem",
     textTransform: "none",
+    marginTop: "auto", // Pushes the button to the bottom
     "&:hover": {
         backgroundColor: "#C62828",
     },
@@ -116,7 +116,7 @@ const Footer = styled(Box)({
     padding: "18px 0",
 });
 
-export default function Signup() {
+export default function Setpassword() {
     return (
         <Wrapper>
             <FormContainer>
@@ -126,39 +126,18 @@ export default function Signup() {
                 </LogoContainer>
 
                 <Typography variant="h5" sx={{ color: "#fff", fontWeight: "bold", mb: 2 }}>
-                    Sign up to Start Streaming
+                    Set Password to Continue
                 </Typography>
 
                 {/* Form Fields */}
-                <InputField fullWidth variant="outlined" label="Full Name" />
-                <InputField fullWidth variant="outlined" label="Email" />
-                <InputField fullWidth variant="outlined" label="Phone Number" />
+                <Typography sx={{ color: "#fff", textAlign: "left", mb: 1 }}>Set Password</Typography>
+                <InputField fullWidth variant="outlined" label="Set Password" />
 
+                <Typography sx={{ color: "#fff", textAlign: "left", mb: 1 }}>Confirm Password</Typography>
+                <InputField fullWidth variant="outlined" label="Confirm Password" />
 
-                {/* Next Button */}
-                <Link href="/auth/setpassword" passHref legacyBehavior>
-                    <NextButton variant="contained">Next</NextButton>
-                </Link>
-
-
-                {/* OR Divider */}
-                <OrDivider>or</OrDivider>
-
-                {/* Social Signup Buttons */}
-                <SocialButton variant="contained">
-                    <GoogleIcon />
-                    Sign up with Google
-                </SocialButton>
-
-                <SocialButton variant="contained">
-                    <FacebookIcon />
-                    Sign up with Facebook
-                </SocialButton>
-
-                <SocialButton variant="contained">
-                    <AppleIcon />
-                    Sign up with Apple
-                </SocialButton>
+                {/* Next Button at the bottom */}
+                <NextButton variant="contained">Submit</NextButton>
             </FormContainer>
 
             {/* Footer at the bottom */}
