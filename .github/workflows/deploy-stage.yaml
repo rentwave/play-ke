@@ -58,7 +58,8 @@ jobs:
           key: ${{ secrets.PASSWORD_SSH_KEY }}
           script: |
             cd /srv/apps/play-ke/ || { echo "Failed to cd"; exit 1; }
-            # Set the latest Docker tag
+            git stash
+            git pull origin main
             LATEST_TAG="${{ env.docker_tag }}"
             if [[ -z "$LATEST_TAG" ]]; then
               echo "Error: LATEST_TAG is empty."
