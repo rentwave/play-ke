@@ -1,15 +1,13 @@
 "use client";
-import { Box, Button, TextField, Typography, Divider } from "@mui/material";
+import { Box, Button, TextField, Typography, Divider, FormControlLabel, Checkbox } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import GoogleIcon from "@/app/Components/Icons/Google";
-import AppleIcon from "@/app/Components/Icons/Apple";
-import FacebookIcon from "@/app/Components/Icons/Facebook";
+import Link from "next/link";
 import Image from "next/image";
 
 const Wrapper = styled("div")({
     minHeight: "100vh",
     display: "flex",
-    flexDirection: "column", // Ensure the footer stays at the bottom
+    flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#000",
@@ -24,8 +22,10 @@ const FormContainer = styled(Box)(({ theme }) => ({
     maxWidth: "400px",
     textAlign: "center",
     boxShadow: "0px 4px 10px rgba(255, 255, 255, 0.1)",
+    display: "flex",
+    flexDirection: "column",
+    minHeight: "600px", // Increased height
 
-    // Make background black on small screens
     [theme.breakpoints.down("sm")]: {
         backgroundColor: "#000",
     },
@@ -59,35 +59,10 @@ const InputField = styled(TextField)({
     },
     "& label": {
         color: "#aaa",
+        fontWeight: 600, // Semibold labels
     },
     "& .MuiInputLabel-root.Mui-focused, & .MuiInputLabel-shrink": {
         color: "#e50914",
-    },
-});
-
-const OrDivider = styled(Divider)({
-    color: "#fff",
-    fontWeight: "bold",
-    textTransform: "uppercase",
-    margin: "20px 0",
-});
-
-const SocialButton = styled(Button)({
-    width: "100%",
-    padding: "10px",
-    borderRadius: "30px",
-    marginBottom: "10px",
-    textTransform: "none",
-    fontSize: "1rem",
-    backgroundColor: "#0D0D0D",
-    border: "1px solid #333",
-    color: "#fff",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: "10px",
-    "&:hover": {
-        backgroundColor: "#1A1A1A",
     },
 });
 
@@ -99,6 +74,7 @@ const NextButton = styled(Button)({
     color: "#fff",
     fontSize: "1rem",
     textTransform: "none",
+    marginBottom: "24px", // Moves text below downwards
     "&:hover": {
         backgroundColor: "#C62828",
     },
@@ -115,7 +91,7 @@ const Footer = styled(Box)({
     padding: "18px 0",
 });
 
-export default function Login() {
+export default function Setpassword() {
     return (
         <Wrapper>
             <FormContainer>
@@ -125,36 +101,36 @@ export default function Login() {
                 </LogoContainer>
 
                 <Typography variant="h5" sx={{ color: "#fff", fontWeight: "bold", mb: 2 }}>
-                    Sign up to Start Streaming
+                    Signin to PlayKE
                 </Typography>
 
                 {/* Form Fields */}
-                <InputField fullWidth variant="outlined" label="Full Name" />
-                <InputField fullWidth variant="outlined" label="Email" />
-                <InputField fullWidth variant="outlined" label="Phone Number" />
+                <Typography sx={{ color: "#fff", textAlign: "left", mb: 1, fontWeight: 600 }}>Email or Phone Number</Typography>
+                <InputField fullWidth variant="outlined" label="Email or Phone Number" />
 
+                <Typography sx={{ color: "#fff", textAlign: "left", mb: 1, fontWeight: 600 }}>Password</Typography>
+                <InputField fullWidth variant="outlined" label="Password" />
+
+                {/* Remember Me and Forgot Password */}
+                <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", mb: 2 }}>
+                    <FormControlLabel control={<Checkbox sx={{ color: "#fff" }} />} label={<Typography sx={{ color: "#fff", fontSize: "0.875rem" }}>Remember Me</Typography>} />
+                    <Link href="#" passHref legacyBehavior >
+                        <Typography component="a" sx={{ color: "#e50914", fontSize: "0.875rem", cursor: "pointer", textDecoration: "none", fontWeight: "600" }}>
+                            Forgot Password?
+                        </Typography>
+                    </Link>
+                </Box>
 
                 {/* Next Button */}
-                <NextButton variant="contained">Next</NextButton>
+                <NextButton variant="contained">Sign In</NextButton>
 
-                {/* OR Divider */}
-                <OrDivider>or</OrDivider>
-
-                {/* Social Signup Buttons */}
-                <SocialButton variant="contained">
-                    <GoogleIcon />
-                    Sign up with Google
-                </SocialButton>
-
-                <SocialButton variant="contained">
-                    <FacebookIcon />
-                    Sign up with Facebook
-                </SocialButton>
-
-                <SocialButton variant="contained">
-                    <AppleIcon />
-                    Sign up with Apple
-                </SocialButton>
+                {/* Sign Up Link */}
+                <Typography sx={{ fontSize: "0.875rem", mt: 4 }}>
+                    <span style={{ color: "#e50914", fontWeight: "600" }}>Don’t have an account?</span>
+                    <Link href="#" passHref legacyBehavior>
+                        <Typography component="span" sx={{ color: "#fff", fontWeight: "600", ml: 1, cursor: "pointer", textDecoration: "none" }}>Sign Up</Typography>
+                    </Link>
+                </Typography>
             </FormContainer>
 
             {/* Footer at the bottom */}
