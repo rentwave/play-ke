@@ -35,7 +35,7 @@ const HeroSection = styled(Box)(({ theme }) => ({
 export default function Home() {
   return (
     <HeroSection>
-      <Container maxWidth="">
+      <Container>
         {/* Card inside HeroSection */}
         <StyledCard>
           <CardContent sx={{ textAlign: "center" }}>

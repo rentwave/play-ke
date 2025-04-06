@@ -90,7 +90,7 @@ const Footer = styled(Box)({
     textAlign: "center",
     color: "#fff",
     fontSize: "0.875rem",
-    backgroundColor: "#111",
+    backgroundColor: "#310204",
     padding: "18px 0",
 });
 
