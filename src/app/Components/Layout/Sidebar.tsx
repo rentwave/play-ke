@@ -34,7 +34,7 @@ const MenuItem = styled(Box)({
 
 const BalanceCard = styled(Box)({
     width: "100%",
-    backgroundColor: "#111",
+    backgroundColor: "#1A1A1A",
     padding: "20px",
     borderRadius: "8px",
     marginTop: "20px",

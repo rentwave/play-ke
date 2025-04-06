@@ -37,7 +37,7 @@ export default function Layout({ children }: LayoutProps) {
 
       <Content>
         <Topbar />
-        <Container maxWidth="xl">{children}</Container>
+        <Box>{children}</Box>
         <Footer />
       </Content>
     </Wrapper>
