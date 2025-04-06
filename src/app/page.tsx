@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { Typography, List, ListItem, ListItemIcon, Button, Box, AppBar, Toolbar, Container } from "@mui/material";
+import { Typography, Button, Box, AppBar, Toolbar, Container } from "@mui/material";
 import { styled, keyframes } from "@mui/material/styles";
 import MovieOutlinedIcon from '@mui/icons-material/MovieOutlined';
 import MusicNoteOutlinedIcon from '@mui/icons-material/MusicNoteOutlined';
@@ -244,13 +244,13 @@ export default function Home() {
           </Typography>
 
 
-          <Link href="/auth/signup" passHref sx={{ mb: 5 }}>
+          <Link href="/auth/signup" passHref>
             <CTAButton variant="contained" size="small" aria-label="Create Account">
               <span style={{ textTransform: "none" }}>Create an Account to Start Streaming</span>
             </CTAButton>
           </Link>
 
-          <MultiItemCarousel sx={{ mt: 5 }} />
+          <MultiItemCarousel />
         </Container>
       </HeroSection>
 

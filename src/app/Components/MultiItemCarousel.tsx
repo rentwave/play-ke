@@ -22,7 +22,7 @@ const ItemCard = styled(Card)(({ theme }) => ({
 }));
 
 // Lower section background color
-const CardContentStyled = styled(CardContent)(({ theme }) => ({
+const CardContentStyled = styled(CardContent)(() => ({
     backgroundColor: '#210103', // Light blue-gray background for the lower section
     padding: '8px',
     color: "#A4A4A4",

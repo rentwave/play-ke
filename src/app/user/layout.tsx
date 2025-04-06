@@ -1,6 +1,6 @@
 "use client";
 import { ReactNode } from 'react';
-import { Box, Container, useMediaQuery, useTheme } from "@mui/material";
+import { Box, useMediaQuery, useTheme } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Sidebar from "../Components/Layout/Sidebar";
 import Topbar from "../Components/Layout/Topbar";
