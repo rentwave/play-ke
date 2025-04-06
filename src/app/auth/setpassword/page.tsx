@@ -10,23 +10,26 @@ const Wrapper = styled("div")({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#000",
+    backgroundImage:
+        "linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(49, 2, 4, 0.9)), url('/images/home.png')",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
     position: "relative",
 });
 
 const FormContainer = styled(Box)(({ theme }) => ({
-    backgroundColor: "#0D0D0D",
+    backgroundColor: "rgba(13, 13, 13, 0.8)", // Reduced opacity
     padding: "30px",
     borderRadius: "12px",
     width: "100%",
     maxWidth: "400px",
     textAlign: "center",
     boxShadow: "0px 4px 10px rgba(255, 255, 255, 0.1)",
-    display: "flex",
-    flexDirection: "column",
-    minHeight: "600px", // Increased height
 
+    // Make background slightly transparent on small screens
     [theme.breakpoints.down("sm")]: {
-        backgroundColor: "#000",
+        backgroundColor: "rgba(0, 0, 0.3, 0,3)",
     },
 }));
 
