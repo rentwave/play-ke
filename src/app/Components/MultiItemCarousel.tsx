@@ -81,8 +81,8 @@ const MultiItemCarousel = () => {
                 sx={{
                     fontSize: {
                         xs: '1.5rem',
-                        sm: '3rem',
-                        md: '3rem',
+                        sm: '1.5rem',
+                        md: '1.8rem',
                     },
                     marginBottom: '24px',
                     marginLeft: '5px',
