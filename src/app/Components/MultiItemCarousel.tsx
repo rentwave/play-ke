@@ -77,7 +77,13 @@ const MultiItemCarousel = () => {
                 variant="h5"
                 component="h5"
                 align="left"
+
                 sx={{
+                    fontSize: {
+                        xs: '1.5rem',
+                        sm: '3rem',
+                        md: '3rem',
+                    },
                     marginBottom: '24px',
                     marginLeft: '5px',
                     fontWeight: 600,

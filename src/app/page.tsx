@@ -1,19 +1,20 @@
 "use client";
 import Image from "next/image";
 import { Typography, Button, Box, AppBar, Toolbar, Container } from "@mui/material";
-import { styled, keyframes } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import MovieOutlinedIcon from '@mui/icons-material/MovieOutlined';
 import MusicNoteOutlinedIcon from '@mui/icons-material/MusicNoteOutlined';
 import LiveTvIcon from "@mui/icons-material/LiveTv";
 import TheatersOutlinedIcon from '@mui/icons-material/TheatersOutlined';
 import Link from "next/link"; // Import Link from Next.js
 import MultiItemCarousel from "./Components/MultiItemCarousel";
+import PulseBorderButton from "./Components/PulseBorderButton";
 
 const contentItems = [
   { text: "Music", icon: <MusicNoteOutlinedIcon sx={{ color: "#e50914" }} /> },
   { text: "Movies", icon: <MovieOutlinedIcon sx={{ color: "#e50914" }} /> },
   { text: "Shows", icon: <TheatersOutlinedIcon sx={{ color: "#e50914" }} /> },
-  { text: "Live Events", icon: <LiveTvIcon sx={{ color: "#e50914" }} /> },
+  { text: "Live Shows", icon: <LiveTvIcon sx={{ color: "#e50914" }} /> },
 ];
 
 const Wrapper = styled("div")({
@@ -42,103 +43,6 @@ const HeroSection = styled(Box)(({ theme }) => ({
     padding: "10px",
   },
 }));
-
-
-
-
-
-// const HeroSection = styled(Box)(({ theme }) => ({
-//   flex: 1,
-//   display: "flex",
-//   flexDirection: "column",
-//   alignItems: "center",
-//   justifyContent: "center",
-//   backgroundColor: "#000",
-//   backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/images/home.png')",
-//   backgroundSize: "cover",
-//   backgroundPosition: "center",
-//   backgroundRepeat: "no-repeat",
-//   color: "#fff",
-//   textAlign: "center",
-//   padding: "20px",
-//   marginTop: "20px",
-//   [theme.breakpoints.down("md")]: {
-//     padding: "10px",
-//   },
-// }));
-const borderFlow = keyframes`
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-`;
-const CTAButton = styled(Button)(({ theme }) => ({
-  position: "relative",
-  marginTop: "20px",
-  marginBottom: "60px",
-  padding: "10px 20px",
-  fontSize: "1rem",
-  color: "#FFFFFF", // White text
-  backgroundColor: "transparent", // Keep transparent for the outer element
-  border: "none",
-  borderRadius: "13px",
-  cursor: "pointer",
-  zIndex: 1,
-  transition: "color 0.3s ease",
-
-  // Border gradient effect container
-  "&::before": {
-    content: '""',
-    position: "absolute",
-    top: "-1px",
-    right: "-1px",
-    bottom: "-1px",
-    left: "-1px",
-    zIndex: -1,
-    borderRadius: "13px", // Slightly larger than the button
-    background: "linear-gradient(90deg, #e50914, #DBDBDB, #FFFFFF, #e50914)",
-    backgroundSize: "300% 100%",
-    animation: `${borderFlow} 5s linear infinite`,
-  },
-
-  // Inner background that reveals only the border
-  "&::after": {
-    content: '""',
-    position: "absolute",
-    top: "1px", // Border thickness
-    right: "1px",
-    bottom: "1px",
-    left: "1px",
-    zIndex: -1,
-    borderRadius: "13px", // Slightly smaller
-    backgroundColor: "#210103", // Dark shade of black
-    transition: "background-color 0.3s ease",
-  },
-
-  // Hover effect
-  "&:hover": {
-    color: "#fff", // Stays white on hover
-    "&::after": {
-      backgroundColor: "#e50914", // Red on hover
-    },
-    "&::before": {
-      animation: `${borderFlow} 3s linear infinite`, // Faster animation on hover
-    }
-  },
-
-  // Responsive styles
-  [theme.breakpoints.down("sm")]: {
-    fontSize: "0.9rem",
-    padding: "6px 12px",
-  },
-}));
-
-
 
 
 const LoginButton = styled(Button)(({ }) => ({
@@ -196,7 +100,7 @@ export default function Home() {
               fontWeight: 'bold',
               textAlign: 'center',
               fontSize: {
-                xs: '2rem',
+                xs: '1.8rem',
                 sm: '3rem',
                 md: '3rem',
               },
@@ -213,13 +117,18 @@ export default function Home() {
             sx={{
               mt: 0,
               color: "#DBDBDB", // Dark white for readability
-              fontSize: "1.4rem",
+              fontWeight: "400",
+              fontSize: {
+                xs: '1rem',
+                sm: '1.2rem',
+                md: '1.3rem',
+              },
               textAlign: "center",
               maxWidth: "800px", // Keeps it compact and readable
               margin: "0 auto", // Centers the text
             }}
-          > Where <span style={{ fontWeight: "bold", color: "#ffffff" }}>musicians, content creators, and local filmmakers</span> showcase their
-            talent & find value in their work. Sign in to create, share, or support others.
+          ><span style={{ fontWeight: "bold", color: "#ffffff" }}>The Home of Kenyan Music & Content</span> Where <span style={{ fontWeight: "bold", color: "#ffffff" }}>musicians, content creators, and local filmmakers</span> showcase their
+            talent & find value in their work.
           </Typography>
 
           <Typography
@@ -245,11 +154,8 @@ export default function Home() {
 
 
           <Link href="/auth/signup" passHref>
-            <CTAButton variant="contained" size="small" aria-label="Create Account">
-              <span style={{ textTransform: "none" }}>Create an Account to Start Streaming</span>
-            </CTAButton>
+            <PulseBorderButton />
           </Link>
-
           <MultiItemCarousel />
         </Container>
       </HeroSection>
