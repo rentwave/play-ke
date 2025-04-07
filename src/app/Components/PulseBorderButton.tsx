@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 
 const PulseBorderButton = () => {
     return (
-        <Box sx={{ position: 'relative', display: 'inline-block' }}>
+        <Box sx={{ position: 'relative', display: 'inline-block', marginBottom: 5 }}>
             {/* Material UI Button */}
             <Button
                 variant="outlined"
