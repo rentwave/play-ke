@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 import { Box, Button, TextField, Typography, Divider } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import GoogleIcon from "@/app/Components/Icons/Google";
@@ -6,11 +7,12 @@ import AppleIcon from "@/app/Components/Icons/Apple";
 import FacebookIcon from "@/app/Components/Icons/Facebook";
 import Link from "next/link";
 import Image from "next/image";
+// import { createUser } from "@/lib/apiService";
 
 const Wrapper = styled("div")({
     minHeight: "100vh",
     display: "flex",
-    flexDirection: "column", // Ensure the footer stays at the bottom
+    flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#000",
@@ -23,7 +25,7 @@ const Wrapper = styled("div")({
 });
 
 const FormContainer = styled(Box)(({ theme }) => ({
-    backgroundColor: "rgba(13, 13, 13, 0.8)", // Reduced opacity
+    backgroundColor: "rgba(13, 13, 13, 0.8)",
     padding: "30px",
     borderRadius: "12px",
     width: "100%",
@@ -31,12 +33,10 @@ const FormContainer = styled(Box)(({ theme }) => ({
     textAlign: "center",
     boxShadow: "0px 4px 10px rgba(255, 255, 255, 0.1)",
 
-    // Make background slightly transparent on small screens
     [theme.breakpoints.down("sm")]: {
         backgroundColor: "rgba(0, 0, 0.1, 0.1)",
     },
 }));
-
 
 const LogoContainer = styled(Box)({
     display: "flex",
@@ -123,6 +123,19 @@ const Footer = styled(Box)({
 });
 
 export default function Signup() {
+    const [fullName, setFullName] = useState("");
+    const [email, setEmail] = useState("");
+    const [phoneNumber, setPhoneNumber] = useState("");
+    // const userCredentials = { fullName, email, phoneNumber };
+    // const createuser = async () => {
+    //     try {
+    //         const login = await createUser(userCredentials);
+
+    //     } catch (error) {
+    //         console.error("Failed to login user:", error);
+    //     }
+    // };
+
     return (
         <Wrapper>
             <FormContainer>
@@ -136,16 +149,32 @@ export default function Signup() {
                 </Typography>
 
                 {/* Form Fields */}
-                <InputField fullWidth variant="outlined" label="Full Name" />
-                <InputField fullWidth variant="outlined" label="Email" />
-                <InputField fullWidth variant="outlined" label="Phone Number" />
-
+                <InputField
+                    fullWidth
+                    variant="outlined"
+                    label="Full Name"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                />
+                <InputField
+                    fullWidth
+                    variant="outlined"
+                    label="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                />
+                <InputField
+                    fullWidth
+                    variant="outlined"
+                    label="Phone Number"
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                />
 
                 {/* Next Button */}
                 <Link href="/auth/setpassword" passHref legacyBehavior>
                     <NextButton variant="contained">Next</NextButton>
                 </Link>
-
 
                 {/* OR Divider */}
                 <OrDivider>or</OrDivider>
