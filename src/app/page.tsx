@@ -106,7 +106,7 @@ export default function Home() {
               },
             }}
           >
-            <span style={{ color: "#fff" }}>Stream </span>
+            <span style={{ color: "#fff" }}>The Home of </span>
             <span style={{ color: "#fff" }}>Kenyan</span>
             <span style={{ color: "#fff" }}> Music</span>
             <span style={{ color: "#e50914" }}> &</span>
@@ -127,7 +127,7 @@ export default function Home() {
               maxWidth: "800px", // Keeps it compact and readable
               margin: "0 auto", // Centers the text
             }}
-          ><span style={{ fontWeight: "bold", color: "#ffffff" }}>The Home of Kenyan Music & Content</span> Where <span style={{ fontWeight: "bold", color: "#ffffff" }}>musicians, content creators, and local filmmakers</span> showcase their
+          > Where <span style={{ fontWeight: "bold", color: "#ffffff" }}>musicians, content creators, and local filmmakers</span> showcase their
             talent & find value in their work
           </Typography>
 
