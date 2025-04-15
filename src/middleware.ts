@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export function middleware(req: NextRequest) {
-  const allowedOrigins = ["http://localhost:3001", "http://localhost:3000"]; // Add all allowed origins
+  const allowedOrigins = ["http://localhost:3001", "http://localhost:3000", "https://play-inc.254.radio/"]; // Add all allowed origins
   const origin = req.headers.get("origin");
 
   // Allow requests without an Origin header (like server-to-server requests)
