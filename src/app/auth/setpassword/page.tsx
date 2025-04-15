@@ -1,7 +1,17 @@
 "use client";
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { useState } from "react";
+import {
+    Box,
+    Button,
+    TextField,
+    Typography,
+    InputAdornment,
+    IconButton
+} from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Image from "next/image";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 const Wrapper = styled("div")({
     minHeight: "100vh",
@@ -19,17 +29,15 @@ const Wrapper = styled("div")({
 });
 
 const FormContainer = styled(Box)(({ theme }) => ({
-    backgroundColor: "rgba(13, 13, 13, 0.8)", // Reduced opacity
-    padding: "30px",
+    backgroundColor: "rgba(13, 13, 13, 0.8)",
+    padding: "50px",
     borderRadius: "12px",
     width: "100%",
-    maxWidth: "400px",
+    maxWidth: "450px",
     textAlign: "center",
     boxShadow: "0px 4px 10px rgba(255, 255, 255, 0.1)",
-
-    // Make background slightly transparent on small screens
     [theme.breakpoints.down("sm")]: {
-        backgroundColor: "rgba(0, 0, 0.3, 0,3)",
+        backgroundColor: "rgba(0, 0, 0.3, 0.3)",
     },
 }));
 
@@ -49,21 +57,21 @@ const InputField = styled(TextField)({
             borderColor: "#808080",
         },
         "&:hover fieldset": {
-            borderColor: "#e50914",
+            borderColor: "#ffffff",
         },
         "&.Mui-focused fieldset": {
-            borderColor: "#e50914",
+            borderColor: "#ffffff",
         },
     },
     "& input": {
         color: "#fff",
-        padding: "15px",
+        padding: "13px",
     },
     "& label": {
         color: "#aaa",
     },
     "& .MuiInputLabel-root.Mui-focused, & .MuiInputLabel-shrink": {
-        color: "#e50914",
+        color: "#ffffff",
     },
 });
 
@@ -75,7 +83,7 @@ const NextButton = styled(Button)({
     color: "#fff",
     fontSize: "1rem",
     textTransform: "none",
-    marginTop: "auto", // Pushes the button to the bottom
+    marginTop: "auto",
     "&:hover": {
         backgroundColor: "#C62828",
     },
@@ -93,6 +101,11 @@ const Footer = styled(Box)({
 });
 
 export default function Setpassword() {
+    const [setPassword, setSetPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [showSetPassword, setShowSetPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
     return (
         <Wrapper>
             <FormContainer>
@@ -105,18 +118,59 @@ export default function Setpassword() {
                     Set Password to Continue
                 </Typography>
 
-                {/* Form Fields */}
+                {/* Set Password */}
                 <Typography sx={{ color: "#fff", textAlign: "left", mb: 1 }}>Set Password</Typography>
-                <InputField fullWidth variant="outlined" label="Set Password" />
+                <InputField
+                    fullWidth
+                    variant="outlined"
+                    label="Set Password"
+                    type={showSetPassword ? "text" : "password"}
+                    value={setPassword}
+                    onChange={(e) => setSetPassword(e.target.value)}
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <IconButton
+                                    onClick={() => setShowSetPassword((prev) => !prev)}
+                                    edge="end"
+                                    sx={{ color: "#fff" }}
+                                >
+                                    {showSetPassword ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>
+                            </InputAdornment>
+                        ),
+                    }}
+                />
 
+                {/* Confirm Password */}
                 <Typography sx={{ color: "#fff", textAlign: "left", mb: 1 }}>Confirm Password</Typography>
-                <InputField fullWidth variant="outlined" label="Confirm Password" />
+                <InputField
+                    fullWidth
+                    variant="outlined"
+                    label="Confirm Password"
+                    type={showConfirmPassword ? "text" : "password"}
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <IconButton
+                                    onClick={() => setShowConfirmPassword((prev) => !prev)}
+                                    edge="end"
+                                    sx={{ color: "#fff" }}
+                                >
+                                    {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>
+                            </InputAdornment>
+                        ),
+                    }}
+                />
 
-                {/* Next Button at the bottom */}
+                {/* Submit Button */}
                 <NextButton variant="contained">Submit</NextButton>
             </FormContainer>
 
-            {/* Footer at the bottom */}
+            {/* Footer */}
             <Footer>© {new Date().getFullYear()} PlayKE. All rights reserved.</Footer>
         </Wrapper>
     );
