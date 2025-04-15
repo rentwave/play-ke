@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
   nuxt-app-stage:
@@ -8,17 +8,20 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        NODE_ENV: stage 
+        NODE_ENV: production
+        API_BASE_URL: https://play-backend.254.radio
     ports:
-      - "3009:3009" 
+      - "3009:3009"
     volumes:
       - .:/usr/local/app
+    env_file:
+      - .env.production
     environment:
-      - NODE_ENV=stage
-      - PORT=3009 
+      - NODE_ENV=production
+      - PORT=3009
     networks:
-      - stage-network 
+      - stage-network
 
 networks:
   stage-network:
-    driver: bridge  
+    driver: bridge
