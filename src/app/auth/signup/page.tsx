@@ -204,28 +204,28 @@ export default function Signup() {
                 <InputField
                     fullWidth
                     variant="outlined"
-                    label="Full Name"
+                    placeholder="Full Name"
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
                 />
                 <InputField
                     fullWidth
                     variant="outlined"
-                    label="Email"
+                    placeholder="Email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                 />
                 <InputField
                     fullWidth
                     variant="outlined"
-                    label="Phone Number"
+                    placeholder="Phone Number"
                     value={phoneNumber}
                     onChange={(e) => setPhoneNumber(e.target.value)}
                 />
                 <InputField
                     fullWidth
                     variant="outlined"
-                    label="Set Password"
+                    placeholder="Set Password"
                     type={showConfirmPassword ? "text" : "password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
