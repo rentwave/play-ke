@@ -224,6 +224,7 @@ export default function Setpassword() {
                         <InputField
                             fullWidth
                             variant="outlined"
+                            placeholder="Email Address"
                             InputLabelProps={{ shrink: false }}
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
@@ -237,6 +238,7 @@ export default function Setpassword() {
                         <InputField
                             fullWidth
                             variant="outlined"
+                            placeholder="Phone Number"
                             InputLabelProps={{ shrink: false }}
                             value={phoneNumber}
                             onChange={(e) => setPhoneNumber(e.target.value)}
@@ -249,6 +251,7 @@ export default function Setpassword() {
                 <InputField
                     fullWidth
                     variant="outlined"
+                    placeholder="Password"
                     InputLabelProps={{ shrink: false }}
                     type={showPassword ? "text" : "password"}
                     value={password}
