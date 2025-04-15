@@ -1,19 +1,19 @@
 import apiRequest from "./apiClient";
-import CryptoJS from "crypto-js";
+// import CryptoJS from "crypto-js";
 
-const SECRET_KEY = "your-secret-key"; // Replace with a strong, random key
+// const SECRET_KEY = "your-secret-key"; // Replace with a strong, random key
 
 // Encrypt function
-export const encryptData = (data: object) => {
-  const stringData = JSON.stringify(data);
-  return { data: CryptoJS.AES.encrypt(stringData, SECRET_KEY).toString() }
-};
+// export const encryptData = (data: object) => {
+//   const stringData = JSON.stringify(data);
+//   return { data: CryptoJS.AES.encrypt(stringData, SECRET_KEY).toString() }
+// };
 
 // Decrypt function (for testing)
-export const decryptData = (ciphertext: string) => {
-  const bytes = CryptoJS.AES.decrypt(ciphertext, SECRET_KEY);
-  return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
-};
+// export const decryptData = (ciphertext: string) => {
+//   const bytes = CryptoJS.AES.decrypt(ciphertext, SECRET_KEY);
+//   return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+// };
 
 export const fetchUser = async () => {
   try {
@@ -27,7 +27,7 @@ export const fetchUser = async () => {
 
 export const loginUser = async (data: object) => {
   try {
-    const response = await apiRequest("/user_manager/log_in/", encryptData(data), "POST");
+    const response = await apiRequest("user_management/auth/authenticate/", data, "POST");
     console.log("response:", response);
     return response;
   } catch (error) {
@@ -35,11 +35,11 @@ export const loginUser = async (data: object) => {
   }
 };
 
-export const createUser = async () => {
+export const createUser = async (data: object) => {
   try {
-    const users = await apiRequest("/posts", {}, "GET");
-    console.log("Users:", users);
-    return users;
+    const response = await apiRequest("/user_management/auth/onboard/", data, "POST");
+    console.log("Users:", response);
+    return response;
   } catch (error) {
     throw error;
   }

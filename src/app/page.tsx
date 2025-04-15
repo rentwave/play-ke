@@ -14,7 +14,7 @@ const contentItems = [
   { text: "Music", icon: <MusicNoteOutlinedIcon sx={{ color: "#e50914" }} /> },
   { text: "Movies", icon: <MovieOutlinedIcon sx={{ color: "#e50914" }} /> },
   { text: "Shows", icon: <TheatersOutlinedIcon sx={{ color: "#e50914" }} /> },
-  { text: "Live Shows", icon: <LiveTvIcon sx={{ color: "#e50914" }} /> },
+  { text: "Live Streams", icon: <LiveTvIcon sx={{ color: "#e50914" }} /> },
 ];
 
 const Wrapper = styled("div")({
@@ -127,8 +127,10 @@ export default function Home() {
               maxWidth: "800px", // Keeps it compact and readable
               margin: "0 auto", // Centers the text
             }}
-          > Where <span style={{ fontWeight: "bold", color: "#ffffff" }}>musicians, content creators, and local filmmakers</span> showcase their
-            talent & find value in their work
+          >
+            {/* Where <span style={{ fontWeight: "bold", color: "#ffffff" }}>musicians, content creators, and local filmmakers</span> showcase their
+            talent & find value in their work  */}
+            A 100% Kenyan Streaming Partner for Kenyan Creatives with 50/50 revenue for Kenyan Creatives.
           </Typography>
 
           <Typography

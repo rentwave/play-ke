@@ -1,13 +1,19 @@
 "use client";
 import { useState } from "react";
-import { Box, Button, TextField, Typography, Divider } from "@mui/material";
+import {
+    Box, Button, TextField, Typography, Divider, InputAdornment, IconButton, CircularProgress,
+    Alert
+} from "@mui/material";
 import { styled } from "@mui/material/styles";
 import GoogleIcon from "@/app/Components/Icons/Google";
 import AppleIcon from "@/app/Components/Icons/Apple";
 import FacebookIcon from "@/app/Components/Icons/Facebook";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Link from "next/link";
 import Image from "next/image";
-// import { createUser } from "@/lib/apiService";
+import { useRouter } from "next/navigation";
+import { createUser } from "@/lib/apiService";
 
 const Wrapper = styled("div")({
     minHeight: "100vh",
@@ -26,10 +32,10 @@ const Wrapper = styled("div")({
 
 const FormContainer = styled(Box)(({ theme }) => ({
     backgroundColor: "rgba(13, 13, 13, 0.8)",
-    padding: "30px",
+    padding: "60px",
     borderRadius: "12px",
     width: "100%",
-    maxWidth: "400px",
+    maxWidth: "450px",
     textAlign: "center",
     boxShadow: "0px 4px 10px rgba(255, 255, 255, 0.1)",
 
@@ -38,6 +44,7 @@ const FormContainer = styled(Box)(({ theme }) => ({
     },
 }));
 
+
 const LogoContainer = styled(Box)({
     display: "flex",
     justifyContent: "center",
@@ -45,30 +52,30 @@ const LogoContainer = styled(Box)({
 });
 
 const InputField = styled(TextField)({
-    marginBottom: "18px",
+    marginBottom: "8px",
     backgroundColor: "#0D0D0D",
     borderRadius: "6px",
 
     "& .MuiOutlinedInput-root": {
         "& fieldset": {
-            borderColor: "#808080",
+            borderColor: "#7c7c7c",
         },
         "&:hover fieldset": {
-            borderColor: "#e50914",
+            borderColor: "#808080",
         },
         "&.Mui-focused fieldset": {
-            borderColor: "#e50914",
+            borderColor: "#808080",
         },
     },
     "& input": {
         color: "#fff",
-        padding: "15px",
+        padding: "13px",
     },
     "& label": {
         color: "#aaa",
     },
     "& .MuiInputLabel-root.Mui-focused, & .MuiInputLabel-shrink": {
-        color: "#e50914",
+        color: "#ffffff",
     },
 });
 
@@ -76,7 +83,7 @@ const OrDivider = styled(Divider)({
     color: "#fff",
     fontWeight: "bold",
     textTransform: "uppercase",
-    margin: "20px 0",
+    margin: "10px 0",
 });
 
 const SocialButton = styled(Button)({
@@ -100,16 +107,25 @@ const SocialButton = styled(Button)({
 
 const NextButton = styled(Button)({
     width: "100%",
-    padding: "8px",
-    borderRadius: "6px",
+    padding: "10px",
+    borderRadius: "22px",
+    marginTop: "10px",
     backgroundColor: "#e50914",
     color: "#fff",
     fontSize: "1rem",
     textTransform: "none",
+
     "&:hover": {
         backgroundColor: "#C62828",
     },
+
+    "&.Mui-disabled": {
+        backgroundColor: "#b22222", // a softer dark red
+        color: "#fff",
+        cursor: "not-allowed",
+    },
 });
+
 
 const Footer = styled(Box)({
     width: "100%",
@@ -123,30 +139,66 @@ const Footer = styled(Box)({
 });
 
 export default function Signup() {
+    const router = useRouter();
     const [fullName, setFullName] = useState("");
     const [email, setEmail] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
-    // const userCredentials = { fullName, email, phoneNumber };
-    // const createuser = async () => {
-    //     try {
-    //         const login = await createUser(userCredentials);
+    const [password, setPassword] = useState("");
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [statusMessage, setStatusMessage] = useState("");
+    const [statusType, setStatusType] = useState<"success" | "error" | "">(""); // "" means no message
 
-    //     } catch (error) {
-    //         console.error("Failed to login user:", error);
-    //     }
-    // };
+    const userCredentials = {
+        full_name: fullName,
+        email: email,
+        phone_number: phoneNumber,
+        password: password,
+    };
+
+    const callcreateUser = async () => {
+        setLoading(true);
+        setStatusMessage("");
+        setStatusType("");
+        try {
+            const response = await createUser(userCredentials);
+            if (response.code === "100.000.000") {
+                setStatusMessage("Account created successfully. Redirecting to login...");
+                setStatusType("success");
+                setTimeout(() => {
+                    router.push("/auth/signin");
+                }, 2000);
+            } else {
+                setStatusMessage("Please check your details and try again.");
+                setStatusType("error");
+            }
+            console.log("User created successfully:", response);
+        } catch (error) {
+            console.error("Failed to create user:", error);
+            setStatusMessage("Please check your details and try again.");
+            setStatusType("error");
+        } finally {
+            setLoading(false);
+        }
+    };
+
 
     return (
         <Wrapper>
             <FormContainer>
                 {/* Logo */}
                 <LogoContainer>
-                    <Image src="/images/Logo.png" alt="PlayKE Logo" width={120} height={60} priority />
+                    <Image src="/images/Logo.png" alt="PlayKE Logo" width={90} height={42} priority />
                 </LogoContainer>
 
                 <Typography variant="h5" sx={{ color: "#fff", fontWeight: "bold", mb: 2 }}>
                     Sign up to Start Streaming
                 </Typography>
+                {statusMessage && (
+                    <Alert sx={{ mb: 2 }} severity={statusType || "error"}>{statusMessage}</Alert>
+
+                )}
+
 
                 {/* Form Fields */}
                 <InputField
@@ -170,11 +222,39 @@ export default function Signup() {
                     value={phoneNumber}
                     onChange={(e) => setPhoneNumber(e.target.value)}
                 />
+                <InputField
+                    fullWidth
+                    variant="outlined"
+                    label="Set Password"
+                    type={showConfirmPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <IconButton
+                                    onClick={() => setShowConfirmPassword((prev) => !prev)}
+                                    edge="end"
+                                    sx={{ color: "#fff" }}
+                                >
+                                    {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>
+                            </InputAdornment>
+                        ),
+                    }}
+                />
+
 
                 {/* Next Button */}
-                <Link href="/auth/setpassword" passHref legacyBehavior>
-                    <NextButton variant="contained">Next</NextButton>
-                </Link>
+
+                <NextButton onClick={callcreateUser} variant="contained" disabled={loading}>
+                    {loading ? (
+                        <CircularProgress size="30px" sx={{ color: '#ffffff' }} />
+                    ) : (
+                        "Next"
+                    )}
+                </NextButton>
+
 
                 {/* OR Divider */}
                 <OrDivider>or</OrDivider>
@@ -194,6 +274,14 @@ export default function Signup() {
                     <AppleIcon />
                     Sign up with Apple
                 </SocialButton>
+                <Typography sx={{ fontSize: "0.875rem", mt: 4 }}>
+                    <span style={{ color: "#7c7c7c", fontWeight: "400" }}>Already have an account?</span>
+                    <Link href="/auth/signin" passHref legacyBehavior>
+                        <Typography component="span" sx={{ color: "#fff", fontWeight: "600", ml: 1, cursor: "pointer", textDecoration: "none" }}>
+                            Login
+                        </Typography>
+                    </Link>
+                </Typography>
             </FormContainer>
 
             {/* Footer at the bottom */}
