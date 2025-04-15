@@ -3,7 +3,6 @@ import axios from "axios";
 
 export async function POST(req: Request) {
   try {
-    // Clone the request to be able to read it multiple times if needed
     const reqClone = req.clone();
     const requestText = await reqClone.text();
     console.log("Raw request body:", requestText);
@@ -17,7 +16,6 @@ export async function POST(req: Request) {
     }
 
     const { endpoint, payload } = requestData;
-    // Force method to always be POST regardless of what's provided
     const method = "POST";
 
     if (!endpoint) {
@@ -30,7 +28,6 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: "Server configuration error" }, { status: 500 });
     }
 
-    // Ensure the endpoint is correctly formatted
     const apiUrl = `${apiBaseUrl.replace(/\/$/, "")}/${endpoint.replace(/^\//, "")}`;
 
     console.log("Proxying request to:", apiUrl);
@@ -38,11 +35,10 @@ export async function POST(req: Request) {
     console.log("Request payload:", JSON.stringify(payload, null, 2));
     console.log("Payload type:", typeof payload);
 
-    // Create axios config with detailed debugging and enforced POST method
     const axiosConfig = {
       url: apiUrl,
       method: "POST",
-      data: { data: payload }, // Don't stringify again!
+      data: { data: payload },
       headers: {
         "Content-Type": "application/json"
       },
