@@ -65,25 +65,15 @@ jobs:
               echo "Error: LATEST_TAG is empty."
               exit 1
             fi
-            if [ -f .env ]; then
-              # Preserve existing contents, if needed
-              # Append to .env instead of overwriting it
-              echo "FRONTEND_TAG=${LATEST_TAG}" >> .env
-              echo "Updated .env file with FRONTEND_TAG=${LATEST_TAG}"
-              ENCRYPTION_KEY=mysecretkey123
-              API_BASE_URL=https://play-backend.254.radio
-              echo "API_BASE_URL=${API_BASE_URL}" >> .env
-              echo "Updated .env file with FRONTEND_TAG=${LATEST_TAG}"
-              # Pull the latest Docker image and restart the container
-            else:
-              echo "FRONTEND_TAG=${LATEST_TAG}" > .env
-              echo "Updated .env file with FRONTEND_TAG=${LATEST_TAG}"
-              ENCRYPTION_KEY=mysecretkey123
-              API_BASE_URL=https://play-backend.254.radio
-              echo "API_BASE_URL=${API_BASE_URL}" > .env
-              echo "Updated .env file with FRONTEND_TAG=${LATEST_TAG}"
-              # Pull the latest Docker image and restart the container
-            fi
+
+            echo "FRONTEND_TAG=${LATEST_TAG}" >> .env
+            echo "Updated .env file with FRONTEND_TAG=${LATEST_TAG}"
+            ENCRYPTION_KEY=mysecretkey123
+            API_BASE_URL=https://play-backend.254.radio
+            echo "API_BASE_URL=${API_BASE_URL}" >> .env
+            echo "Updated .env file with FRONTEND_TAG=${LATEST_TAG}"
+            # Pull the latest Docker image and restart the container
+
             docker-compose pull
             docker-compose up -d --build
 
