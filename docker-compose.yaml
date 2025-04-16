@@ -1,28 +1,3 @@
-# version: '3'
-
-# services:
-#   nuxt-app-stage:
-#     container_name: play_ke_frontend_stage
-#     image: osiru/playkefrontend:${FRONTEND_TAG}
-#     build:
-#       context: .
-#       dockerfile: Dockerfile
-#       args:
-#         NODE_ENV: stage
-#     ports:
-#       - "3009:3009"
-#     volumes:
-#       - .:/usr/local/app
-#     environment:
-#       - NODE_ENV=stage
-#       - PORT=3009
-#     networks:
-#       - stage-network
-
-# networks:
-#   stage-network:
-#     driver: bridge
-
 version: "3"
 
 services:
@@ -39,7 +14,7 @@ services:
     volumes:
       - .:/usr/local/app
     env_file:
-      - .env.production
+      - .env
     environment:
       - NODE_ENV=stage
       - PORT=3009
