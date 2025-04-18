@@ -14,6 +14,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { createUser } from "@/lib/apiService";
+import { useEffect } from "react";
+
 
 const Wrapper = styled("div")({
     minHeight: "100vh",
@@ -137,6 +139,25 @@ const Footer = styled(Box)({
     backgroundColor: "#310204",
     padding: "18px 0",
 });
+declare global {
+    interface Window {
+        google?: {
+            accounts: {
+                id: {
+                    initialize: (options: {
+                        client_id: string;
+                        callback: (response: google.accounts.id.CredentialResponse) => void;
+                    }) => void;
+                    renderButton: (
+                        parent: HTMLElement,
+                        options: google.accounts.id.GsiButtonConfiguration
+                    ) => void;
+                    prompt: () => void;
+                };
+            };
+        };
+    }
+}
 
 export default function Signup() {
     const router = useRouter();
@@ -182,6 +203,41 @@ export default function Signup() {
         }
     };
 
+
+
+    function handleGoogleSignup(response: google.accounts.id.CredentialResponse) {
+        const credential = response.credential;
+
+        if (!credential) {
+            console.error("No credential returned from Google");
+            return;
+        }
+
+        fetch("http://localhost:8000/api/auth/google/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ token: credential }),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log("Google signup success:", data);
+                router.push("/dashboard");
+            })
+            .catch((err) => {
+                console.error("Google signup failed:", err);
+            });
+    }
+
+    useEffect(() => {
+        if (window.google) {
+            window.google.accounts.id.initialize({
+                client_id: "805577433586-mas7q7jikpei77th0v2kbl8utdb0m4kb.apps.googleusercontent.com",
+                callback: handleGoogleSignup,
+            });
+        }
+    }, []);
 
     return (
         <Wrapper>
@@ -260,7 +316,11 @@ export default function Signup() {
                 <OrDivider>or</OrDivider>
 
                 {/* Social Signup Buttons */}
-                <SocialButton variant="contained">
+                <SocialButton variant="contained" onClick={() => {
+                    if (window.google) {
+                        window.google.accounts.id.prompt();
+                    }
+                }}>
                     <GoogleIcon />
                     Sign up with Google
                 </SocialButton>
