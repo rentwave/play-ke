@@ -1,20 +1,20 @@
 "use client";
 import { useState } from "react";
 import {
-    Box, Button, TextField, Typography, Divider, InputAdornment, IconButton, CircularProgress,
+    Box, Button, TextField, Typography, InputAdornment, IconButton, CircularProgress,
     Alert
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import GoogleIcon from "@/app/Components/Icons/Google";
-import AppleIcon from "@/app/Components/Icons/Apple";
-import FacebookIcon from "@/app/Components/Icons/Facebook";
+// import GoogleIcon from "@/app/Components/Icons/Google";
+// import AppleIcon from "@/app/Components/Icons/Apple";
+// import FacebookIcon from "@/app/Components/Icons/Facebook";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { createUser } from "@/lib/apiService";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 
 
 const Wrapper = styled("div")({
@@ -54,7 +54,7 @@ const LogoContainer = styled(Box)({
 });
 
 const InputField = styled(TextField)({
-    marginBottom: "8px",
+    marginBottom: "10px",
     backgroundColor: "#0D0D0D",
     borderRadius: "6px",
 
@@ -81,31 +81,31 @@ const InputField = styled(TextField)({
     },
 });
 
-const OrDivider = styled(Divider)({
-    color: "#fff",
-    fontWeight: "bold",
-    textTransform: "uppercase",
-    margin: "10px 0",
-});
+// const OrDivider = styled(Divider)({
+//     color: "#fff",
+//     fontWeight: "bold",
+//     textTransform: "uppercase",
+//     margin: "10px 0",
+// });
 
-const SocialButton = styled(Button)({
-    width: "100%",
-    padding: "10px",
-    borderRadius: "30px",
-    marginBottom: "10px",
-    textTransform: "none",
-    fontSize: "1rem",
-    backgroundColor: "#0D0D0D",
-    border: "1px solid #333",
-    color: "#fff",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: "10px",
-    "&:hover": {
-        backgroundColor: "#1A1A1A",
-    },
-});
+// const SocialButton = styled(Button)({
+//     width: "100%",
+//     padding: "10px",
+//     borderRadius: "30px",
+//     marginBottom: "10px",
+//     textTransform: "none",
+//     fontSize: "1rem",
+//     backgroundColor: "#0D0D0D",
+//     border: "1px solid #333",
+//     color: "#fff",
+//     display: "flex",
+//     alignItems: "center",
+//     justifyContent: "center",
+//     gap: "10px",
+//     "&:hover": {
+//         backgroundColor: "#1A1A1A",
+//     },
+// });
 
 const NextButton = styled(Button)({
     width: "100%",
@@ -205,39 +205,39 @@ export default function Signup() {
 
 
 
-    function handleGoogleSignup(response: google.accounts.id.CredentialResponse) {
-        const credential = response.credential;
+    // function handleGoogleSignup(response: google.accounts.id.CredentialResponse) {
+    //     const credential = response.credential;
 
-        if (!credential) {
-            console.error("No credential returned from Google");
-            return;
-        }
+    //     if (!credential) {
+    //         console.error("No credential returned from Google");
+    //         return;
+    //     }
 
-        fetch("http://localhost:8000/api/auth/google/", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ token: credential }),
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                console.log("Google signup success:", data);
-                router.push("/dashboard");
-            })
-            .catch((err) => {
-                console.error("Google signup failed:", err);
-            });
-    }
+    //     fetch("http://localhost:8000/api/auth/google/", {
+    //         method: "POST",
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //         },
+    //         body: JSON.stringify({ token: credential }),
+    //     })
+    //         .then((res) => res.json())
+    //         .then((data) => {
+    //             console.log("Google signup success:", data);
+    //             router.push("/dashboard");
+    //         })
+    //         .catch((err) => {
+    //             console.error("Google signup failed:", err);
+    //         });
+    // }
 
-    useEffect(() => {
-        if (window.google) {
-            window.google.accounts.id.initialize({
-                client_id: "805577433586-mas7q7jikpei77th0v2kbl8utdb0m4kb.apps.googleusercontent.com",
-                callback: handleGoogleSignup,
-            });
-        }
-    }, []);
+    // useEffect(() => {
+    //     if (window.google) {
+    //         window.google.accounts.id.initialize({
+    //             client_id: "805577433586-mas7q7jikpei77th0v2kbl8utdb0m4kb.apps.googleusercontent.com",
+    //             callback: handleGoogleSignup,
+    //         });
+    //     }
+    // }, []);
 
     return (
         <Wrapper>
@@ -313,10 +313,10 @@ export default function Signup() {
 
 
                 {/* OR Divider */}
-                <OrDivider>or</OrDivider>
+                {/* <OrDivider>or</OrDivider> */}
 
                 {/* Social Signup Buttons */}
-                <SocialButton variant="contained" onClick={() => {
+                {/* <SocialButton variant="contained" onClick={() => {
                     if (window.google) {
                         window.google.accounts.id.prompt();
                     }
@@ -333,7 +333,7 @@ export default function Signup() {
                 <SocialButton variant="contained">
                     <AppleIcon />
                     Sign up with Apple
-                </SocialButton>
+                </SocialButton> */}
                 <Typography sx={{ fontSize: "0.875rem", mt: 4 }}>
                     <span style={{ color: "#7c7c7c", fontWeight: "400" }}>Already have an account?</span>
                     <Link href="/auth/signin" passHref legacyBehavior>
