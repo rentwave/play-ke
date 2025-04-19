@@ -6,6 +6,7 @@ import MovieOutlinedIcon from '@mui/icons-material/MovieOutlined';
 import MusicNoteOutlinedIcon from '@mui/icons-material/MusicNoteOutlined';
 import LiveTvIcon from "@mui/icons-material/LiveTv";
 import TheatersOutlinedIcon from '@mui/icons-material/TheatersOutlined';
+import PodcastsOutlinedIcon from '@mui/icons-material/PodcastsOutlined';
 import Link from "next/link"; // Import Link from Next.js
 import MultiItemCarousel from "./Components/MultiItemCarousel";
 import PulseBorderButton from "./Components/PulseBorderButton";
@@ -15,6 +16,7 @@ const contentItems = [
   { text: "Movies", icon: <MovieOutlinedIcon sx={{ color: "#e50914" }} /> },
   { text: "Shows", icon: <TheatersOutlinedIcon sx={{ color: "#e50914" }} /> },
   { text: "Live Streams", icon: <LiveTvIcon sx={{ color: "#e50914" }} /> },
+  { text: "Podcasts", icon: <PodcastsOutlinedIcon sx={{ color: "#e50914" }} /> },
 ];
 
 const Wrapper = styled("div")({
@@ -130,7 +132,7 @@ export default function Home() {
           >
             {/* Where <span style={{ fontWeight: "bold", color: "#ffffff" }}>musicians, content creators, and local filmmakers</span> showcase their
             talent & find value in their work  */}
-            A 100% Kenyan Streaming Partner for Kenyan Creatives with 50/50 revenue for Kenyan Creatives.
+            A 100% Kenyan Streaming Partner for Kenyan Creatives offering 50/50 revenue share between Kenyan Creatives and the platform.
           </Typography>
 
           <Typography

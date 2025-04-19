@@ -10,7 +10,6 @@ import {
     Tabs,
     Tab,
     Alert,
-    Divider
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Link from "next/link";
@@ -20,9 +19,9 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { loginUser } from "@/lib/apiService";
 import { useRouter } from "next/navigation";
-import GoogleIcon from "@/app/Components/Icons/Google";
-import AppleIcon from "@/app/Components/Icons/Apple";
-import FacebookIcon from "@/app/Components/Icons/Facebook";
+// import GoogleIcon from "@/app/Components/Icons/Google";
+// import AppleIcon from "@/app/Components/Icons/Apple";
+// import FacebookIcon from "@/app/Components/Icons/Facebook";
 
 const Wrapper = styled("div")({
     minHeight: "100vh",
@@ -51,24 +50,24 @@ const FormContainer = styled(Box)(({ theme }) => ({
         backgroundColor: "rgba(0, 0, 0, 0)",
     },
 }));
-const SocialButton = styled(Button)({
-    width: "100%",
-    padding: "10px",
-    borderRadius: "30px",
-    marginBottom: "10px",
-    textTransform: "none",
-    fontSize: "1rem",
-    backgroundColor: "#0D0D0D",
-    border: "1px solid #333",
-    color: "#fff",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: "10px",
-    "&:hover": {
-        backgroundColor: "#1A1A1A",
-    },
-});
+// const SocialButton = styled(Button)({
+//     width: "100%",
+//     padding: "10px",
+//     borderRadius: "30px",
+//     marginBottom: "10px",
+//     textTransform: "none",
+//     fontSize: "1rem",
+//     backgroundColor: "#0D0D0D",
+//     border: "1px solid #333",
+//     color: "#fff",
+//     display: "flex",
+//     alignItems: "center",
+//     justifyContent: "center",
+//     gap: "10px",
+//     "&:hover": {
+//         backgroundColor: "#1A1A1A",
+//     },
+// });
 
 const LogoContainer = styled(Box)({
     display: "flex",
@@ -117,12 +116,12 @@ const NextButton = styled(Button)({
         backgroundColor: "#C62828",
     },
 });
-const OrDivider = styled(Divider)({
-    color: "#fff",
-    fontWeight: "bold",
-    textTransform: "uppercase",
-    margin: "10px 0",
-});
+// const OrDivider = styled(Divider)({
+//     color: "#fff",
+//     fontWeight: "bold",
+//     textTransform: "uppercase",
+//     margin: "10px 0",
+// });
 
 const Footer = styled(Box)({
     width: "100%",
@@ -294,7 +293,7 @@ export default function Setpassword() {
                     ) : (
                         "Login"
                     )}</NextButton>
-                <OrDivider>or</OrDivider>
+                {/* <OrDivider>or</OrDivider>
                 <SocialButton variant="contained">
                     <GoogleIcon />
                     Login with Google
@@ -308,7 +307,7 @@ export default function Setpassword() {
                 <SocialButton variant="contained">
                     <AppleIcon />
                     Login with Apple
-                </SocialButton>
+                </SocialButton> */}
 
                 {/* Sign up link */}
                 <Typography sx={{ fontSize: "0.875rem", mt: 4 }}>
