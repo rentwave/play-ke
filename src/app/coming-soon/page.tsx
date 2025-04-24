@@ -1,21 +1,7 @@
 "use client";
 import Image from "next/image";
-import { Typography, Button, Box, AppBar, Toolbar, Container } from "@mui/material";
+import { Typography, Box, AppBar, Toolbar, Container } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import MovieOutlinedIcon from '@mui/icons-material/MovieOutlined';
-import MusicNoteOutlinedIcon from '@mui/icons-material/MusicNoteOutlined';
-import LiveTvIcon from "@mui/icons-material/LiveTv";
-import TheatersOutlinedIcon from '@mui/icons-material/TheatersOutlined';
-import PodcastsOutlinedIcon from '@mui/icons-material/PodcastsOutlined';
-import Link from "next/link"; // Import Link from Next.js
-
-const contentItems = [
-  { text: "Music", icon: <MusicNoteOutlinedIcon sx={{ color: "#e50914" }} /> },
-  { text: "Movies", icon: <MovieOutlinedIcon sx={{ color: "#e50914" }} /> },
-  { text: "Shows", icon: <TheatersOutlinedIcon sx={{ color: "#e50914" }} /> },
-  { text: "Live Streams", icon: <LiveTvIcon sx={{ color: "#e50914" }} /> },
-  { text: "Podcasts", icon: <PodcastsOutlinedIcon sx={{ color: "#e50914" }} /> },
-];
 
 const Wrapper = styled("div")({
   minHeight: "100vh", // Use minHeight to ensure full viewport coverage
@@ -44,17 +30,6 @@ const HeroSection = styled(Box)(({ theme }) => ({
   },
 }));
 
-
-const LoginButton = styled(Button)(({ }) => ({
-  backgroundColor: "#e50914",
-  color: "#fff",
-  fontSize: "0.9rem",
-  padding: "6px 12px",
-  textTransform: "none",
-  "&:hover": {
-    backgroundColor: "#A71A30",
-  },
-}));
 
 const Footer = styled(Box)({
   backgroundColor: "#310204",
