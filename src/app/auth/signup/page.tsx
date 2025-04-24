@@ -183,7 +183,7 @@ export default function Signup() {
         setStatusType("");
         try {
             const response = await createUser(userCredentials);
-            if (response.code === "100.000.000") {
+            if (response.body.code === "100.000.000") {
                 setStatusMessage("Account created successfully. Redirecting to login...");
                 setStatusType("success");
                 setTimeout(() => {

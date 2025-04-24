@@ -1,10 +1,13 @@
-import React, { useState } from "react";
-import { AppBar, Toolbar, Box, TextField, Button, InputAdornment, IconButton, Drawer, List, ListItem, ListItemText, useMediaQuery, useTheme } from "@mui/material";
+'use client'
+import React, { useState, useEffect } from "react";
+import { AppBar, Toolbar, Box, TextField, Button, Typography, InputAdornment, Link, IconButton, Drawer, List, ListItem, ListItemText, useMediaQuery, useTheme } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWalletTwoTone"; // Wallet icon (two-tone)
 import SearchIcon from "@mui/icons-material/SearchTwoTone"; // Search icon (two-tone)
 import MenuIcon from "@mui/icons-material/MenuTwoTone"; // Menu icon (two-tone)
 import Image from 'next/image';
+import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
+import { useUserStore } from "@/store";
 
 const SearchBar = styled(TextField)({
     width: "500px",  // Set the width for the search bar
@@ -32,15 +35,59 @@ const SearchBar = styled(TextField)({
         padding: "10px",
     },
 });
+const StyledIconButton = styled(IconButton)(() => ({
+    borderRadius: '50%',
+    backgroundColor: '#E50914', // Netflix red
+    color: '#fff', // White text
+    padding: '6px',
+    width: '45px',
+    height: '45px',
+    '&:hover': {
+        backgroundColor: '#b00610', // Darker on hover
+    },
+}))
+const PostContentButton = styled(Button)(() => ({
+    border: '1px solid #fff',
+    borderRadius: '24px',
+    backgroundColor: 'transparent',
+    color: '#fff',
+    fontWeight: 'bold',
+    padding: '8px 16px',
+    textTransform: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '2px', // space between icon and text
+    '&:hover': {
+        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    },
+}))
 
 export default function Topbar() {
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("md"));  // Check if screen is mobile or tablet
-    const [drawerOpen, setDrawerOpen] = useState(false);  // State to control Drawer visibility
+    const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+    const [drawerOpen, setDrawerOpen] = useState(false);
+    const [isClient, setIsClient] = useState(false)
+    const user = useUserStore.getState().user
+    useEffect(() => {
+        setIsClient(true)
+    }, [])
 
     const toggleDrawer = (open: boolean) => {
         setDrawerOpen(open);
     };
+
+    function getAbbreviation(fullName: string): string {
+        if (!fullName || typeof fullName !== 'string') return '...'
+        const nameParts = fullName.split(' ');
+        if (nameParts.length === 1) {
+            return `${nameParts[0].charAt(0).toUpperCase()}.`;
+        } else if (nameParts.length >= 2) {
+            const firstName = nameParts[0];
+            const lastName = nameParts[1];
+            return `${firstName.charAt(0).toUpperCase()}${lastName.charAt(0).toUpperCase()}`;
+        }
+        return fullName;
+    }
 
     return (
         <AppBar position="sticky" sx={{ backgroundColor: "#000", padding: "10px 0" }}>
@@ -82,7 +129,7 @@ export default function Topbar() {
                         </IconButton>
 
                         {/* Post Content Button */}
-                        <Button
+                        <Link href="/creator"><Button
                             variant="contained"
                             sx={{
                                 textTransform: "none",  // No text transform
@@ -95,7 +142,7 @@ export default function Topbar() {
                             }}
                         >
                             Post Content
-                        </Button>
+                        </Button></Link>
 
                         {/* Mobile Menu Button */}
                         <IconButton sx={{ color: "#fff" }} onClick={() => toggleDrawer(true)}>
@@ -106,49 +153,27 @@ export default function Topbar() {
 
                 {/* Desktop view: Right-aligned buttons (Donate, Post Content, Topup) */}
                 {!isMobile && (
-                    <Box display="flex" gap={2} alignItems="center">
-                        {/* Topup Button with Wallet Icon */}
-                        <Button
-                            variant="outlined"
-                            sx={{
-                                textTransform: "none",  // No text transform
-                                fontWeight: "600",  // Semi-bold
-                                borderColor: "#e50914",
-                                color: "#e50914",
-                                "&:hover": {
-                                    borderColor: "#C62828",
-                                    color: "#C62828",
-                                },
-                            }}
-                        >
-                            <AccountBalanceWalletIcon sx={{ marginRight: "8px" }} /> Topup
-                        </Button>
+                    <Box display="flex" gap={1.5} alignItems="center">
+                        <PostContentButton startIcon={<AccountBalanceWalletIcon />}>
+                            Topup
+                        </PostContentButton>
+                        <Link href="/creator">
+                            <PostContentButton startIcon={<AddTwoToneIcon />}>
+                                Post Content
+                            </PostContentButton></Link>
 
-                        {/* Donate Button */}
-                        <Button
-                            variant="contained"
-                            sx={{
-                                textTransform: "none",  // Uppercase text
-                                fontWeight: "600",  // Semi-bold
-                                backgroundColor: "#e50914",
-                                "&:hover": { backgroundColor: "#C62828" },
-                            }}
-                        >
-                            Donate
-                        </Button>
-
-                        {/* Post Content Button */}
-                        <Button
-                            variant="contained"
-                            sx={{
-                                textTransform: "none",  // No text transform
-                                fontWeight: "600",  // Semi-bold
-                                backgroundColor: "#e50914",
-                                "&:hover": { backgroundColor: "#C62828" },
-                            }}
-                        >
-                            Post Content
-                        </Button>
+                        <StyledIconButton>
+                            <Typography
+                                variant="body2"
+                                sx={{
+                                    fontWeight: 'bold',
+                                    fontSize: '1rem',
+                                    lineHeight: 1,
+                                }}
+                            >
+                                {isClient && user?.full_name && getAbbreviation(user.full_name)}
+                            </Typography>
+                        </StyledIconButton>
                     </Box>
                 )}
             </Toolbar>

@@ -19,6 +19,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { loginUser } from "@/lib/apiService";
 import { useRouter } from "next/navigation";
+import { useUserStore } from "@/store";
 // import GoogleIcon from "@/app/Components/Icons/Google";
 // import AppleIcon from "@/app/Components/Icons/Apple";
 // import FacebookIcon from "@/app/Components/Icons/Facebook";
@@ -145,30 +146,36 @@ export default function Setpassword() {
     const [statusMessage, setStatusMessage] = useState("");
     const [statusType, setStatusType] = useState<"success" | "error" | "">(""); // "" means no message
     const router = useRouter();
+    const setUser = useUserStore.getState().setUser
     const callloginUser = async () => {
-        setLoading(true);
-        setStatusMessage("");
-        setStatusType("");
+
+        setLoading(true)
+        setStatusMessage("")
+        setStatusType("")
         try {
-            const response = await loginUser(userCredentials);
-            if (response.code === "100.000.000") {
-                setStatusMessage("Login successful. Redirecting...");
-                setStatusType("success");
+            const response = await loginUser(userCredentials)
+            if (response.body.code === "100.000.000") {
+                const user = response.body.user_data
+                setUser(user) // 👉 Set the user in Zustand store
+
+                setStatusMessage("Login successful. Redirecting...")
+                setStatusType("success")
+
                 setTimeout(() => {
-                    router.push("/home");
-                }, 2000);
+                    router.push("/home")
+                }, 2000)
             } else {
-                setStatusMessage("Wrong email or password.");
-                setStatusType("error");
+                setStatusMessage("Wrong email or password.")
+                setStatusType("error")
             }
         } catch (error) {
-            console.log(error)
-            setStatusMessage("Please check your details and try again.");
-            setStatusType("error");
+            console.error(error)
+            setStatusMessage("Please check your details and try again.")
+            setStatusType("error")
         } finally {
-            setLoading(false);
+            setLoading(false)
         }
-    };
+    }
 
     return (
         <Wrapper>

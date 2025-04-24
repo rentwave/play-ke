@@ -42,12 +42,12 @@ const BalanceCard = styled(Box)({
 });
 
 const BalanceText = styled(Box)({
-    fontSize: "1.5rem", // Increase the size of "Balance"
+    fontSize: "1.2rem", // Increase the size of "Balance"
     fontWeight: "bold",
 });
 
 const AmountText = styled(Box)({
-    fontSize: "2rem", // Increase the size of the amount
+    fontSize: "1.5rem", // Increase the size of the amount
     fontWeight: "bold",
     color: "#e50914", // Make the amount stand out
 });
