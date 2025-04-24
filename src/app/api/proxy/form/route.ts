@@ -14,7 +14,7 @@ export async function POST(req: Request) {
         const formData = await req.formData();
 
         const response = await axios({
-            url: apiBaseUrl,
+            url: `${apiBaseUrl.replace(/\/$/, "")}/`,
             method: "POST",
             data: formData,
             headers: { "Content-Type": "multipart/form-data" },

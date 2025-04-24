@@ -18,7 +18,7 @@ export async function POST(req: Request) {
         }
 
         const response = await axios({
-            url: apiBaseUrl,
+            url: `${apiBaseUrl.replace(/\/$/, "")}/`,
             method: "POST",
             data: { route: endpoint, data: payload },
             headers: { "Content-Type": "application/json" },
