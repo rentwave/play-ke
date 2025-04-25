@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import https from "https";
 
 export async function POST(req: Request) {
@@ -28,16 +28,25 @@ export async function POST(req: Request) {
         });
 
         return NextResponse.json(response.data);
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error("JSON proxy error:", error);
 
-        // Provide more detailed error information
-        const errorMessage = error.response?.data || error.message || "Unknown error";
-        const statusCode = error.response?.status || 500;
+        // Type guard to check if it's an Axios error
+        if (axios.isAxiosError(error)) {
+            const axiosError = error as AxiosError;
+            const errorMessage = axiosError.response?.data || axiosError.message;
+            const statusCode = axiosError.response?.status || 500;
 
+            return NextResponse.json({
+                message: "Request failed",
+                error: errorMessage
+            }, { status: statusCode });
+        }
+
+        // For non-Axios errors
         return NextResponse.json({
             message: "Request failed",
-            error: errorMessage
-        }, { status: statusCode });
+            error: error instanceof Error ? error.message : "Unknown error"
+        }, { status: 500 });
     }
 }
