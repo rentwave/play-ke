@@ -36,10 +36,6 @@ const MusicTable: React.FC = () => {
         setCurrentTitle(fileTitle)
         setOpen(true);
     };
-
-    const handleUploadClick = () => {
-        fileInputRef.current?.click();
-    };
     const handleOpenUploadModal = () => setUploadModalOpen(true);
     const handleCloseUploadModal = () => setUploadModalOpen(false);
     const data = {
