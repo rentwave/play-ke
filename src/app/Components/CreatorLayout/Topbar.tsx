@@ -153,8 +153,11 @@ export default function Topbar({ artist }: Props) {
 
     const toggleDrawer = (open: boolean) => {
         setDrawerOpen(open);
-        setProfileData(artist)
-        setPreview(artist?.profile_picture)
+        if (artist != null) {
+            setProfileData(artist)
+            setPreview(artist?.profile_picture)
+        }
+
     };
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [profileData, setProfileData] = useState({

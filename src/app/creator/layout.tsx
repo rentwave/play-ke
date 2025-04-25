@@ -58,14 +58,22 @@ export default function Layout({ children }: LayoutProps) {
 
     callFetchArtist()
   }, [user?.user_id])
-
+  const ArtistPro = {
+    name: '',
+    stage_name: '',
+    bio: '',
+    profile_picture: '',
+    origin_country: '',
+    user_id: '',
+    debut_year: '',
+  };
   return (
     <Wrapper>
       {/* Conditionally render the Sidebar based on the screen size */}
-      {!isMobileOrTablet && artist && <Sidebar artist={artist} />} {/* Only render Sidebar if the screen is larger than "md" */}
+      {!isMobileOrTablet && <Sidebar artist={artist || ArtistPro} />} {/* Only render Sidebar if the screen is larger than "md" */}
 
       <Content>
-        {artist && <Topbar artist={artist} />}
+        <Topbar artist={artist || ArtistPro} />
         <Box>{children}</Box>
         <Footer />
       </Content>

@@ -2,6 +2,8 @@
 import { Box, Typography, Tabs, Tab } from "@mui/material";
 import { useState, useRef } from "react";
 import MusicTable from "../Components/MediaDTs/Audio";
+import VideoTable from "../Components/MediaDTs/Video";
+import PodcastTable from "../Components/MediaDTs/Podcasts";
 
 export default function Home() {
   const [tabIndex, setTabIndex] = useState(0);
@@ -57,8 +59,8 @@ export default function Home() {
         >
           <Box mb={2}>
             {tabIndex === 0 && <MusicTable />}
-            {tabIndex === 1 && "Upload your video content"}
-            {tabIndex === 2 && "Upload your podcast content"}
+            {tabIndex === 1 && <VideoTable />}
+            {tabIndex === 2 && <PodcastTable />}
           </Box>
 
           {/* <Button

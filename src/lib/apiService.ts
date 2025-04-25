@@ -67,4 +67,12 @@ export const fetchMusic = async (data: object) => {
     throw error;
   }
 };
+export const uploadMusic = async (data: object) => {
+  try {
+    const response = await apiRequest("content/api/upload/", data, "POST");
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
 
