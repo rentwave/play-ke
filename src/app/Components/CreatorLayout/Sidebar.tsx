@@ -39,7 +39,7 @@ type Artist = {
     profile_picture: string;
     origin_country: string;
     user_id: string;
-    debut_year: number;
+    debut_year: string;
 };
 
 type Props = {

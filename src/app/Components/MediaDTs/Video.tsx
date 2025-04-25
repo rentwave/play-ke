@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import {
     Table, TableBody, TableCell, TableContainer,
     TableHead, TableRow, Paper, Avatar, IconButton,
-    Typography, Button, Box, CircularProgress, Chip,
+    Typography, Button, Box, CircularProgress, Chip
 } from "@mui/material";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import { fetchMusic } from "@/lib/apiService";
@@ -11,7 +11,7 @@ import MusicModal from "./PlayerModal";
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 import UploadMusicModal from "./UploadModal";
 import RefreshIcon from '@mui/icons-material/Refresh';
-import DownloadIcon from "./AudioIcon";
+import VideoLibraryIcon from "./VideoIcon";
 type MusicItem = {
     id: string;
     title: string;
@@ -21,7 +21,7 @@ type MusicItem = {
     date_created: string;
 };
 
-const MusicTable: React.FC = () => {
+const VideoTable: React.FC = () => {
     const [isUploadModalOpen, setUploadModalOpen] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [loading, setLoading] = useState(false);
@@ -37,9 +37,6 @@ const MusicTable: React.FC = () => {
         setOpen(true);
     };
 
-    const handleUploadClick = () => {
-        fileInputRef.current?.click();
-    };
     const handleOpenUploadModal = () => setUploadModalOpen(true);
     const handleCloseUploadModal = () => setUploadModalOpen(false);
     const data = {
@@ -143,6 +140,8 @@ const MusicTable: React.FC = () => {
         }
     }
     useEffect(() => {
+
+
         callFetchMusic()
     }, [user?.user_id])
 
@@ -204,7 +203,6 @@ const MusicTable: React.FC = () => {
                 </Typography>
             </Button>
         </Box>
-
         <Box>
             {loading ? (<Box
                 sx={{
@@ -228,9 +226,9 @@ const MusicTable: React.FC = () => {
                         boxShadow: 1,
                     }}
                 >
-                    <DownloadIcon />
+                    <VideoLibraryIcon />
                     <Typography sx={{ my: 2 }} variant="body2" gutterBottom>
-                        No audio content uploaded
+                        No video content uploaded
                     </Typography>
                     <Button
                         variant="outlined"
@@ -242,9 +240,9 @@ const MusicTable: React.FC = () => {
                                 backgroundColor: "#f1f1f1",
                             },
                         }}
-                        onClick={handleUploadClick}
+                        onClick={handleOpenUploadModal}
                     >
-                        <Typography variant="body2" sx={{ textTransform: "none", fontWeight: "600" }}>Upload Music</Typography>
+                        <Typography variant="body2" sx={{ textTransform: "none", fontWeight: "600" }}>Upload Video</Typography>
                     </Button>
                     <input
                         type="file"
@@ -314,7 +312,7 @@ const MusicTable: React.FC = () => {
                                         <Chip
                                             label={music.state__name === "Active" ? "Visible" : "Hidden"}
                                             sx={{
-                                                backgroundColor: music.state__name === "Active" ? "#008800" : "#E50914", // green or Netflix red
+                                                backgroundColor: music.state__name === "Active" ? "#00C853" : "#E50914", // green or Netflix red
                                                 color: "#fff",
                                                 fontWeight: 600,
                                             }}
@@ -337,9 +335,9 @@ const MusicTable: React.FC = () => {
                 title={currentTitle}
             />
 
-        </Box>
+        </Box >
     </>);
 
 };
 
-export default MusicTable;
+export default VideoTable;
