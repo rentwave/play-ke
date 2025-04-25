@@ -126,7 +126,8 @@ const PodcastTable: React.FC = () => {
             const response = await fetchMusic(data)
             if (response.status_code === 200) {
                 console.log("artist response", response)
-                setMusic(response.body.data)
+                // setMusic(response.body.data)
+                setMusic([])
             } else {
                 // setStatusMessage("An error occurred")
             }
@@ -224,7 +225,7 @@ const PodcastTable: React.FC = () => {
                     }}
                 >
                     <Typography variant="body2" gutterBottom>
-                        No music uploaded
+                        No podcasts uploaded
                     </Typography>
                     <Button
                         variant="outlined"
