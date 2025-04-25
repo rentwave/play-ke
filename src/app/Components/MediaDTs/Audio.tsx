@@ -130,8 +130,7 @@ const MusicTable: React.FC = () => {
             const response = await fetchMusic(data)
             if (response.status_code === 200) {
                 console.log("artist response", response)
-                // setMusic(response.body.data)
-                setMusic([])
+                setMusic(response.body.data)
             } else {
                 // setStatusMessage("An error occurred")
             }
@@ -242,7 +241,7 @@ const MusicTable: React.FC = () => {
                                 backgroundColor: "#f1f1f1",
                             },
                         }}
-                        onClick={handleUploadClick}
+                        onClick={handleOpenUploadModal}
                     >
                         <Typography variant="body2" sx={{ textTransform: "none", fontWeight: "600" }}>Upload Music</Typography>
                     </Button>
