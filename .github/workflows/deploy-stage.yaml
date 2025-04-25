@@ -47,7 +47,7 @@ jobs:
           tags: osiru/playkefrontend:${{ env.docker_tag }}
           platforms: linux/amd64
           build-args: |
-            BASE_URL=https://play-backend.254.radio
+            BASE_URL=https://play-gate.254.radio/api/post/
 
       - name: Deploy to Server via SSH
         uses: appleboy/ssh-action@master
