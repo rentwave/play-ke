@@ -54,6 +54,7 @@ export default function Home() {
       <Box mt={3}>
         <Box
           sx={{
+            borderRadius: 2,
             backgroundColor: "#1A1A1A",
           }}
         >

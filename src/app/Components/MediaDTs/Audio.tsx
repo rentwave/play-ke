@@ -154,7 +154,7 @@ const MusicTable: React.FC = () => {
                 alignItems: "center",
                 padding: 2,
                 backgroundColor: "#1A1A1A",
-                borderRadius: 0,
+                borderRadius: 4,
                 boxShadow: 0,
             }}
         >
@@ -213,7 +213,7 @@ const MusicTable: React.FC = () => {
                     alignItems: "center",
                     height: 300,
                     backgroundColor: "#1A1A1A",
-                    borderRadius: 2,
+                    borderRadius: 8,
                     boxShadow: 3,
                 }}
             >
@@ -222,8 +222,8 @@ const MusicTable: React.FC = () => {
                 <Box
                     sx={{
                         textAlign: "center",
-                        p: 40,
-                        borderRadius: 2,
+                        p: 32,
+                        borderRadius: 8,
                         backgroundColor: "#1A1A1A",
                         boxShadow: 1,
                     }}
