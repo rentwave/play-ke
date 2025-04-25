@@ -69,7 +69,7 @@ jobs:
             echo "FRONTEND_TAG=${LATEST_TAG}" >> .env
             echo "Updated .env file with FRONTEND_TAG=${LATEST_TAG}"
             ENCRYPTION_KEY=mysecretkey123
-            API_BASE_URL=https://play-backend.254.radio
+            API_BASE_URL=https://play-gate.254.radio/api/post/
             echo "API_BASE_URL=${API_BASE_URL}" >> .env
             echo "Updated .env file with FRONTEND_TAG=${LATEST_TAG}"
             # Pull the latest Docker image and restart the container
