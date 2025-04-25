@@ -47,7 +47,7 @@ jobs:
           tags: osiru/playke:${{ env.docker_tag }}
           platforms: linux/amd64,linux/arm64
           build-args: |
-            BASE_URL=https://api.rentwaveafrica.co.ke/api
+            BASE_URL=https://play-gate.254.radio/api/post/
 
       - name: Deploy to Server via SSH for Production
         uses: appleboy/ssh-action@master
