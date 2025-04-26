@@ -324,11 +324,12 @@ export default function Topbar({ artist }: Props) {
             <Drawer anchor="right" open={drawerOpen} onClose={() => toggleDrawer(false)}>
                 <Box
                     sx={{
-                        width: 500,
+                        width: { xs: "100%", sm: 500 }, // full width on mobile, 500px on desktop
                         minHeight: "100vh",
                         background: "linear-gradient(180deg, #1A1A1A, #0D0D0D)",
                         color: "#fff",
                         p: 6,
+                        position: "relative", // in case you want absolute positioning later
                     }}
                 >
                     <Stack spacing={3}>
@@ -382,7 +383,6 @@ export default function Topbar({ artist }: Props) {
                                 onChange={handleChange("bio")}
                             />
 
-
                             <InputField
                                 fullWidth
                                 label="Origin Country"
@@ -397,16 +397,36 @@ export default function Topbar({ artist }: Props) {
                                 onChange={handleChange("debut_year")}
                                 type="number"
                             />
+
+                            {/* Update Button */}
                             <NextButton onClick={UpdateArtist} variant="contained" disabled={loading}>
                                 {loading ? (
                                     <CircularProgress size="30px" sx={{ color: '#ffffff' }} />
                                 ) : (
                                     "Update Profile"
-                                )}</NextButton>
+                                )}
+                            </NextButton>
+
+                            {/* Close Button */}
+                            <NextButton
+                                onClick={() => toggleDrawer(false)}
+                                variant="contained"
+                                sx={{
+                                    mt: 2,
+                                    backgroundColor: "#6c757d", // Grayish color for Close button
+                                    "&:hover": {
+                                        backgroundColor: "#5a6268",
+                                    },
+                                }}
+                            >
+                                Close
+                            </NextButton>
                         </Box>
                     </Stack>
                 </Box>
             </Drawer>
+
+
         </AppBar>
     );
 }
