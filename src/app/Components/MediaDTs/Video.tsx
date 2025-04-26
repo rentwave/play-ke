@@ -36,11 +36,11 @@ const VideoTable: React.FC = () => {
         setCurrentTitle(fileTitle)
         setOpen(true);
     };
-
     const handleOpenUploadModal = () => setUploadModalOpen(true);
     const handleCloseUploadModal = () => setUploadModalOpen(false);
     const data = {
         "user_id": user?.user_id,
+        "media_filter": "Video",
         "draw": 1,
         "columns": [
             {
@@ -55,7 +55,7 @@ const VideoTable: React.FC = () => {
             },
             {
                 "data": "media_type",
-                "name": "",
+                "name": "video",
                 "orderable": true,
                 "search": {
                     "regex": false,
@@ -121,14 +121,13 @@ const VideoTable: React.FC = () => {
     }
     const callFetchMusic = async () => {
         if (!user?.user_id) return
-
         setLoading(true)
         try {
             const response = await fetchMusic(data)
             if (response.status_code === 200) {
                 console.log("artist response", response)
-                // setMusic(response.body.data)
-                setMusic([])
+                setMusic(response.body.data)
+                // setMusic([])
             } else {
                 // setStatusMessage("An error occurred")
             }
@@ -140,8 +139,6 @@ const VideoTable: React.FC = () => {
         }
     }
     useEffect(() => {
-
-
         callFetchMusic()
     }, [user?.user_id])
 
@@ -149,11 +146,11 @@ const VideoTable: React.FC = () => {
         <Box
             sx={{
                 display: "flex",
-                justifyContent: "space-between", // Distribute the space between buttons
+                justifyContent: "space-between",
                 alignItems: "center",
                 padding: 2,
                 backgroundColor: "#1A1A1A",
-                borderRadius: 0,
+                borderRadius: 4,
                 boxShadow: 0,
             }}
         >
@@ -163,19 +160,29 @@ const VideoTable: React.FC = () => {
                 variant="outlined"
                 sx={{
                     borderRadius: 20,
-                    color: "#fff", // White text
-                    borderColor: "#fff", // White border
-                    backgroundColor: "transparent", // Transparent button
+                    color: "#fff",
+                    borderColor: "#fff",
+                    backgroundColor: "transparent",
                     '&:hover': {
-                        backgroundColor: "rgba(255, 255, 255, 0.1)", // Subtle hover effect
+                        backgroundColor: "rgba(255, 255, 255, 0.1)",
                         borderColor: "#fff",
                     },
                     display: "flex",
                     alignItems: "center",
+                    minWidth: { xs: 0, sm: "auto" }, // remove button padding on mobile
+                    padding: { xs: 1, sm: "6px 16px" }, // smaller padding on mobile
                 }}
             >
-                <RefreshIcon sx={{ mr: 1 }} /> {/* Refresh icon with margin-right for spacing */}
-                <Typography variant="body2" sx={{ textTransform: "none", fontWeight: "600", color: "inherit" }}>
+                <RefreshIcon sx={{ mr: { xs: 0, sm: 1 } }} />
+                <Typography
+                    variant="body2"
+                    sx={{
+                        display: { xs: "none", sm: "block" }, // hide text on mobile
+                        textTransform: "none",
+                        fontWeight: 600,
+                        color: "inherit",
+                    }}
+                >
                     Refresh Content
                 </Typography>
             </Button>
@@ -186,19 +193,29 @@ const VideoTable: React.FC = () => {
                 variant="outlined"
                 sx={{
                     borderRadius: 20,
-                    color: "#fff", // White text
-                    borderColor: "#fff", // White border
-                    backgroundColor: "transparent", // Transparent button
+                    color: "#fff",
+                    borderColor: "#fff",
+                    backgroundColor: "transparent",
                     '&:hover': {
-                        backgroundColor: "rgba(255, 255, 255, 0.1)", // Subtle hover effect
+                        backgroundColor: "rgba(255, 255, 255, 0.1)",
                         borderColor: "#fff",
                     },
                     display: "flex",
                     alignItems: "center",
+                    minWidth: { xs: 0, sm: "auto" },
+                    padding: { xs: 1, sm: "6px 16px" },
                 }}
             >
-                <AddTwoToneIcon sx={{ mr: 1 }} /> {/* Add margin-right for spacing between icon and text */}
-                <Typography variant="body2" sx={{ textTransform: "none", fontWeight: "600", color: "inherit" }}>
+                <AddTwoToneIcon sx={{ mr: { xs: 0, sm: 1 } }} />
+                <Typography
+                    variant="body2"
+                    sx={{
+                        display: { xs: "none", sm: "block" },
+                        textTransform: "none",
+                        fontWeight: 600,
+                        color: "inherit",
+                    }}
+                >
                     Upload New
                 </Typography>
             </Button>
@@ -219,17 +236,25 @@ const VideoTable: React.FC = () => {
             </Box>) : music.length === 0 ? (
                 <Box
                     sx={{
-                        textAlign: "center",
-                        p: 40,
+                        width: "100%",
+                        height: 400, // same height as the audio section
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
                         borderRadius: 2,
                         backgroundColor: "#1A1A1A",
                         boxShadow: 1,
+                        textAlign: "center",
+                        p: 2, // small inside padding
                     }}
                 >
                     <VideoLibraryIcon />
-                    <Typography sx={{ my: 2 }} variant="body2" gutterBottom>
+
+                    <Typography variant="body2" sx={{ color: "#ccc", my: 2 }}>
                         No video content uploaded
                     </Typography>
+
                     <Button
                         variant="outlined"
                         sx={{
@@ -242,11 +267,14 @@ const VideoTable: React.FC = () => {
                         }}
                         onClick={handleOpenUploadModal}
                     >
-                        <Typography variant="body2" sx={{ textTransform: "none", fontWeight: "600" }}>Upload Video</Typography>
+                        <Typography variant="body2" sx={{ textTransform: "none", fontWeight: 600 }}>
+                            Upload Video
+                        </Typography>
                     </Button>
+
                     <input
                         type="file"
-                        accept="audio/*"
+                        accept="video/*" // <-- I corrected this to accept video files now!
                         style={{ display: "none" }}
                         ref={fileInputRef}
                         onChange={(e) => {
@@ -257,6 +285,7 @@ const VideoTable: React.FC = () => {
                         }}
                     />
                 </Box>
+
             ) : (
                 <TableContainer
                     component={Paper}

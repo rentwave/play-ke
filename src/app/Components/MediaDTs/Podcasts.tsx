@@ -40,6 +40,7 @@ const PodcastTable: React.FC = () => {
     const handleCloseUploadModal = () => setUploadModalOpen(false);
     const data = {
         "user_id": user?.user_id,
+        "media_filter": "Podcasts",
         "draw": 1,
         "columns": [
             {
@@ -126,8 +127,8 @@ const PodcastTable: React.FC = () => {
             const response = await fetchMusic(data)
             if (response.status_code === 200) {
                 console.log("artist response", response)
-                // setMusic(response.body.data)
-                setMusic([])
+                setMusic(response.body.data)
+                // setMusic([])
             } else {
                 // setStatusMessage("An error occurred")
             }
@@ -147,11 +148,11 @@ const PodcastTable: React.FC = () => {
         <Box
             sx={{
                 display: "flex",
-                justifyContent: "space-between", // Distribute the space between buttons
+                justifyContent: "space-between",
                 alignItems: "center",
                 padding: 2,
                 backgroundColor: "#1A1A1A",
-                borderRadius: 0,
+                borderRadius: 4,
                 boxShadow: 0,
             }}
         >
@@ -161,19 +162,29 @@ const PodcastTable: React.FC = () => {
                 variant="outlined"
                 sx={{
                     borderRadius: 20,
-                    color: "#fff", // White text
-                    borderColor: "#fff", // White border
-                    backgroundColor: "transparent", // Transparent button
+                    color: "#fff",
+                    borderColor: "#fff",
+                    backgroundColor: "transparent",
                     '&:hover': {
-                        backgroundColor: "rgba(255, 255, 255, 0.1)", // Subtle hover effect
+                        backgroundColor: "rgba(255, 255, 255, 0.1)",
                         borderColor: "#fff",
                     },
                     display: "flex",
                     alignItems: "center",
+                    minWidth: { xs: 0, sm: "auto" }, // remove button padding on mobile
+                    padding: { xs: 1, sm: "6px 16px" }, // smaller padding on mobile
                 }}
             >
-                <RefreshIcon sx={{ mr: 1 }} /> {/* Refresh icon with margin-right for spacing */}
-                <Typography variant="body2" sx={{ textTransform: "none", fontWeight: "600", color: "inherit" }}>
+                <RefreshIcon sx={{ mr: { xs: 0, sm: 1 } }} />
+                <Typography
+                    variant="body2"
+                    sx={{
+                        display: { xs: "none", sm: "block" }, // hide text on mobile
+                        textTransform: "none",
+                        fontWeight: 600,
+                        color: "inherit",
+                    }}
+                >
                     Refresh Content
                 </Typography>
             </Button>
@@ -184,19 +195,29 @@ const PodcastTable: React.FC = () => {
                 variant="outlined"
                 sx={{
                     borderRadius: 20,
-                    color: "#fff", // White text
-                    borderColor: "#fff", // White border
-                    backgroundColor: "transparent", // Transparent button
+                    color: "#fff",
+                    borderColor: "#fff",
+                    backgroundColor: "transparent",
                     '&:hover': {
-                        backgroundColor: "rgba(255, 255, 255, 0.1)", // Subtle hover effect
+                        backgroundColor: "rgba(255, 255, 255, 0.1)",
                         borderColor: "#fff",
                     },
                     display: "flex",
                     alignItems: "center",
+                    minWidth: { xs: 0, sm: "auto" },
+                    padding: { xs: 1, sm: "6px 16px" },
                 }}
             >
-                <AddTwoToneIcon sx={{ mr: 1 }} /> {/* Add margin-right for spacing between icon and text */}
-                <Typography variant="body2" sx={{ textTransform: "none", fontWeight: "600", color: "inherit" }}>
+                <AddTwoToneIcon sx={{ mr: { xs: 0, sm: 1 } }} />
+                <Typography
+                    variant="body2"
+                    sx={{
+                        display: { xs: "none", sm: "block" },
+                        textTransform: "none",
+                        fontWeight: 600,
+                        color: "inherit",
+                    }}
+                >
                     Upload New
                 </Typography>
             </Button>
@@ -217,16 +238,23 @@ const PodcastTable: React.FC = () => {
             </Box>) : music.length === 0 ? (
                 <Box
                     sx={{
-                        textAlign: "center",
-                        p: 40,
-                        borderRadius: 2,
+                        width: "100%",
+                        height: 400,
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        borderRadius: 4,
                         backgroundColor: "#1A1A1A",
                         boxShadow: 1,
+                        textAlign: "center",
+                        p: 2,
                     }}
                 >
-                    <Typography variant="body2" gutterBottom>
+                    <Typography variant="body2" sx={{ color: "#ccc", mb: 2 }}>
                         No podcasts uploaded
                     </Typography>
+
                     <Button
                         variant="outlined"
                         sx={{
@@ -239,8 +267,11 @@ const PodcastTable: React.FC = () => {
                         }}
                         onClick={handleOpenUploadModal}
                     >
-                        <Typography variant="body2" sx={{ textTransform: "none", fontWeight: "600" }}>Upload Music</Typography>
+                        <Typography variant="body2" sx={{ textTransform: "none", fontWeight: 600 }}>
+                            Upload Podcasts
+                        </Typography>
                     </Button>
+
                     <input
                         type="file"
                         accept="audio/*"
@@ -254,6 +285,7 @@ const PodcastTable: React.FC = () => {
                         }}
                     />
                 </Box>
+
             ) : (
                 <TableContainer
                     component={Paper}
