@@ -12,6 +12,9 @@ import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 import UploadMusicModal from "./UploadModal";
 import RefreshIcon from '@mui/icons-material/Refresh';
 import DownloadIcon from "./AudioIcon";
+import { useMediaQuery } from "@mui/material";
+import MoreVertIcon from "@mui/icons-material/MoreVert"; // the 3 dots icon
+
 type MusicItem = {
     id: string;
     title: string;
@@ -38,8 +41,10 @@ const MusicTable: React.FC = () => {
     };
     const handleOpenUploadModal = () => setUploadModalOpen(true);
     const handleCloseUploadModal = () => setUploadModalOpen(false);
+    const isMobile = useMediaQuery('(max-width:600px)');
     const data = {
         "user_id": user?.user_id,
+        "media_filter": "Audio",
         "draw": 1,
         "columns": [
             {
@@ -54,7 +59,7 @@ const MusicTable: React.FC = () => {
             },
             {
                 "data": "media_type",
-                "name": "",
+                "name": "audio",
                 "orderable": true,
                 "search": {
                     "regex": false,
@@ -127,6 +132,7 @@ const MusicTable: React.FC = () => {
             if (response.status_code === 200) {
                 console.log("artist response", response)
                 setMusic(response.body.data)
+                // setMusic([])
             } else {
                 // setStatusMessage("An error occurred")
             }
@@ -145,7 +151,7 @@ const MusicTable: React.FC = () => {
         <Box
             sx={{
                 display: "flex",
-                justifyContent: "space-between", // Distribute the space between buttons
+                justifyContent: "space-between",
                 alignItems: "center",
                 padding: 2,
                 backgroundColor: "#1A1A1A",
@@ -159,19 +165,29 @@ const MusicTable: React.FC = () => {
                 variant="outlined"
                 sx={{
                     borderRadius: 20,
-                    color: "#fff", // White text
-                    borderColor: "#fff", // White border
-                    backgroundColor: "transparent", // Transparent button
+                    color: "#fff",
+                    borderColor: "#fff",
+                    backgroundColor: "transparent",
                     '&:hover': {
-                        backgroundColor: "rgba(255, 255, 255, 0.1)", // Subtle hover effect
+                        backgroundColor: "rgba(255, 255, 255, 0.1)",
                         borderColor: "#fff",
                     },
                     display: "flex",
                     alignItems: "center",
+                    minWidth: { xs: 0, sm: "auto" }, // remove button padding on mobile
+                    padding: { xs: 1, sm: "6px 16px" }, // smaller padding on mobile
                 }}
             >
-                <RefreshIcon sx={{ mr: 1 }} /> {/* Refresh icon with margin-right for spacing */}
-                <Typography variant="body2" sx={{ textTransform: "none", fontWeight: "600", color: "inherit" }}>
+                <RefreshIcon sx={{ mr: { xs: 0, sm: 1 } }} />
+                <Typography
+                    variant="body2"
+                    sx={{
+                        display: { xs: "none", sm: "block" }, // hide text on mobile
+                        textTransform: "none",
+                        fontWeight: 600,
+                        color: "inherit",
+                    }}
+                >
                     Refresh Content
                 </Typography>
             </Button>
@@ -182,23 +198,34 @@ const MusicTable: React.FC = () => {
                 variant="outlined"
                 sx={{
                     borderRadius: 20,
-                    color: "#fff", // White text
-                    borderColor: "#fff", // White border
-                    backgroundColor: "transparent", // Transparent button
+                    color: "#fff",
+                    borderColor: "#fff",
+                    backgroundColor: "transparent",
                     '&:hover': {
-                        backgroundColor: "rgba(255, 255, 255, 0.1)", // Subtle hover effect
+                        backgroundColor: "rgba(255, 255, 255, 0.1)",
                         borderColor: "#fff",
                     },
                     display: "flex",
                     alignItems: "center",
+                    minWidth: { xs: 0, sm: "auto" },
+                    padding: { xs: 1, sm: "6px 16px" },
                 }}
             >
-                <AddTwoToneIcon sx={{ mr: 1 }} /> {/* Add margin-right for spacing between icon and text */}
-                <Typography variant="body2" sx={{ textTransform: "none", fontWeight: "600", color: "inherit" }}>
+                <AddTwoToneIcon sx={{ mr: { xs: 0, sm: 1 } }} />
+                <Typography
+                    variant="body2"
+                    sx={{
+                        display: { xs: "none", sm: "block" },
+                        textTransform: "none",
+                        fontWeight: 600,
+                        color: "inherit",
+                    }}
+                >
                     Upload New
                 </Typography>
             </Button>
         </Box>
+
 
         <Box>
             {loading ? (<Box
@@ -216,17 +243,25 @@ const MusicTable: React.FC = () => {
             </Box>) : music.length === 0 ? (
                 <Box
                     sx={{
-                        textAlign: "center",
-                        p: 32,
+                        width: "100%",
+                        height: 400, // or whatever height you prefer
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
                         borderRadius: 8,
                         backgroundColor: "#1A1A1A",
                         boxShadow: 1,
+                        textAlign: "center",
+                        p: 2, // small padding for inside spacing
                     }}
                 >
                     <DownloadIcon />
-                    <Typography sx={{ my: 2 }} variant="body2" gutterBottom>
+
+                    <Typography variant="body2" sx={{ color: "#ccc", my: 2 }}>
                         No audio content uploaded
                     </Typography>
+
                     <Button
                         variant="outlined"
                         sx={{
@@ -239,8 +274,11 @@ const MusicTable: React.FC = () => {
                         }}
                         onClick={handleOpenUploadModal}
                     >
-                        <Typography variant="body2" sx={{ textTransform: "none", fontWeight: "600" }}>Upload Music</Typography>
+                        <Typography variant="body2" sx={{ textTransform: "none", fontWeight: 600 }}>
+                            Upload Music
+                        </Typography>
                     </Button>
+
                     <input
                         type="file"
                         accept="audio/*"
@@ -254,6 +292,7 @@ const MusicTable: React.FC = () => {
                         }}
                     />
                 </Box>
+
             ) : (
                 <TableContainer
                     component={Paper}
@@ -266,17 +305,16 @@ const MusicTable: React.FC = () => {
                     <Table>
                         <TableHead>
                             <TableRow sx={{ borderBottom: "1px solid #373737" }}>
-                                {["Play", "Title", "Upload Date", "Media Type", "Visibility"].map((header) => (
+                                {["Play", "Title", ...(isMobile ? ["Actions"] : ["Upload Date", "Media Type", "Visibility"])].map((header) => (
                                     <TableCell
                                         key={header}
-                                        sx={{ color: "#fff", borderBottom: "none" }} // removes individual cell borders
+                                        sx={{ color: "#fff", borderBottom: "none" }}
                                     >
                                         {header}
                                     </TableCell>
                                 ))}
                             </TableRow>
                         </TableHead>
-
                         <TableBody>
                             {music.map((music) => (
                                 <TableRow
@@ -287,38 +325,48 @@ const MusicTable: React.FC = () => {
                                     }}
                                 >
                                     <TableCell sx={{ color: "#fff", borderBottom: "none" }}>
-                                        {/* <Avatar
-                                            src="https://i1.sndcdn.com/artworks-000161197658-gzvj7z-t500x500.jpg"
-                                            variant="rounded"
-                                            sx={{ mr: 1, bgcolor: "#333" }}
-                                        >
-                                            <IconButton sx={{ color: "#fff" }}>
-                                                <PlayArrowIcon />
-                                            </IconButton>
-                                        </Avatar> */}
                                         <Avatar src="" sx={{ mr: 1, bgcolor: "#333" }}>
                                             <IconButton sx={{ color: "#fff" }} onClick={() => handlePlayClick(music.file_url, music.title)}>
                                                 <PlayArrowIcon />
                                             </IconButton>
                                         </Avatar>
                                     </TableCell>
-                                    <TableCell sx={{ color: "#fff", borderBottom: "none" }}>{music.title}</TableCell>
-                                    <TableCell sx={{ color: "#fff", borderBottom: "none" }}>{music.date_created}</TableCell>
-                                    <TableCell sx={{ color: "#fff", borderBottom: "none" }}>{music.media_type}</TableCell>
-                                    <TableCell sx={{ borderBottom: "none" }}>
-                                        <Chip
-                                            label={music.state__name === "Active" ? "Visible" : "Hidden"}
-                                            sx={{
-                                                backgroundColor: music.state__name === "Active" ? "#008800" : "#E50914", // green or Netflix red
-                                                color: "#fff",
-                                                fontWeight: 600,
-                                            }}
-                                            size="small"
-                                        />
+
+                                    <TableCell sx={{ color: "#fff", borderBottom: "none" }}>
+                                        {music.title}
                                     </TableCell>
+
+                                    {isMobile ? (
+                                        <TableCell sx={{ color: "#fff", borderBottom: "none" }}>
+                                            <IconButton sx={{ color: "#fff" }}>
+                                                <MoreVertIcon />
+                                            </IconButton>
+                                        </TableCell>
+                                    ) : (
+                                        <>
+                                            <TableCell sx={{ color: "#fff", borderBottom: "none" }}>
+                                                {music.date_created}
+                                            </TableCell>
+                                            <TableCell sx={{ color: "#fff", borderBottom: "none" }}>
+                                                {music.media_type}
+                                            </TableCell>
+                                            <TableCell sx={{ borderBottom: "none" }}>
+                                                <Chip
+                                                    label={music.state__name === "Active" ? "Visible" : "Hidden"}
+                                                    sx={{
+                                                        backgroundColor: music.state__name === "Active" ? "#008800" : "#E50914",
+                                                        color: "#fff",
+                                                        fontWeight: 600,
+                                                    }}
+                                                    size="small"
+                                                />
+                                            </TableCell>
+                                        </>
+                                    )}
                                 </TableRow>
                             ))}
                         </TableBody>
+
 
                     </Table>
                 </TableContainer>
