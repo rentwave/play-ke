@@ -58,7 +58,7 @@ export default function Home() {
             backgroundColor: "#1A1A1A",
           }}
         >
-          <Box mb={2}>
+          <Box mb={2} sx={{ p: 2 }}>
             {tabIndex === 0 && <MusicTable />}
             {tabIndex === 1 && <VideoTable />}
             {tabIndex === 2 && <PodcastTable />}

@@ -1,13 +1,21 @@
-"use client";
+'use client';
+
 import { Box } from "@mui/material";
-// import { useUserStore } from "@/store";
+import DashboardIntro from "../Components/Home/HomeIntro";
+import ArtistCarousel from "../Components/PopularArtists";
 
-// Styled Card Component
-
-
-export default function Home() {
-  // const user = useUserStore.getState().user
+export default function DashboardPage() {
   return (
-    <Box></Box>
+    <Box
+      sx={{
+        backgroundColor: "#0f0f0f",
+        minHeight: "100vh",
+        pt: { xs: 0, md: 0 },
+      }}
+    >
+      <DashboardIntro />
+      <ArtistCarousel />
+
+    </Box>
   );
 }

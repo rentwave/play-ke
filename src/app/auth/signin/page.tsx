@@ -10,6 +10,8 @@ import {
     Tabs,
     Tab,
     Alert,
+    Container,
+    Paper,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Link from "next/link";
@@ -20,9 +22,6 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { loginUser } from "@/lib/apiService";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "@/store";
-// import GoogleIcon from "@/app/Components/Icons/Google";
-// import AppleIcon from "@/app/Components/Icons/Apple";
-// import FacebookIcon from "@/app/Components/Icons/Facebook";
 
 const Wrapper = styled("div")({
     minHeight: "100vh",
@@ -32,97 +31,157 @@ const Wrapper = styled("div")({
     alignItems: "center",
     backgroundColor: "#000",
     backgroundImage:
-        "linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(49, 2, 4, 0.9)), url('/images/home.png')",
+        "linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(49, 2, 4, 0.95)), url('/images/home.png')",
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
     position: "relative",
+    overflow: "hidden",
 });
 
-const FormContainer = styled(Box)(({ theme }) => ({
-    backgroundColor: "rgba(13, 13, 13, 0.8)",
-    padding: "60px",
-    borderRadius: "12px",
+const FormContainer = styled(Paper)(({ theme }) => ({
+    backgroundColor: "rgba(13, 13, 13, 0.85)",
+    padding: "48px 60px",
+    borderRadius: "16px",
     width: "100%",
     maxWidth: "450px",
     textAlign: "center",
-    boxShadow: "0px 4px 10px rgba(255, 255, 255, 0.1)",
+    boxShadow: "0 8px 32px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(255, 30, 30, 0.1)",
+    backdropFilter: "blur(10px)",
+    border: "1px solid rgba(255, 255, 255, 0.08)",
+    transition: "all 0.3s ease",
+    '&:hover': {
+        boxShadow: "0 12px 40px rgba(0, 0, 0, 0.4), 0 6px 20px rgba(255, 30, 30, 0.15)",
+    },
     [theme.breakpoints.down("sm")]: {
-        backgroundColor: "rgba(0, 0, 0, 0)",
+        padding: "40px 24px",
+        backgroundColor: "rgba(13, 13, 13, 0.92)",
     },
 }));
-// const SocialButton = styled(Button)({
-//     width: "100%",
-//     padding: "10px",
-//     borderRadius: "30px",
-//     marginBottom: "10px",
-//     textTransform: "none",
-//     fontSize: "1rem",
-//     backgroundColor: "#0D0D0D",
-//     border: "1px solid #333",
-//     color: "#fff",
-//     display: "flex",
-//     alignItems: "center",
-//     justifyContent: "center",
-//     gap: "10px",
-//     "&:hover": {
-//         backgroundColor: "#1A1A1A",
-//     },
-// });
 
 const LogoContainer = styled(Box)({
     display: "flex",
     justifyContent: "center",
-    marginBottom: "15px",
+    marginBottom: "20px",
+    position: "relative",
+    '&::after': {
+        content: '""',
+        position: "absolute",
+        bottom: "-10px",
+        width: "40%",
+        height: "2px",
+        background: "linear-gradient(90deg, rgba(229,9,20,0) 0%, rgba(229,9,20,1) 50%, rgba(229,9,20,0) 100%)",
+        borderRadius: "2px",
+    }
 });
 
 const InputField = styled(TextField)({
-    marginBottom: "5px",
-    backgroundColor: "#0D0D0D",
-    borderRadius: "6px",
+    marginBottom: "16px",
+    backgroundColor: "rgba(30, 30, 30, 0.5)",
+    borderRadius: "8px",
+    transition: "all 0.2s ease",
 
     "& .MuiOutlinedInput-root": {
         "& fieldset": {
-            borderColor: "#7c7c7c",
+            borderColor: "rgba(124, 124, 124, 0.5)",
+            transition: "all 0.2s",
         },
         "&:hover fieldset": {
-            borderColor: "#808080",
+            borderColor: "#999",
         },
         "&.Mui-focused fieldset": {
-            borderColor: "#808080",
+            borderColor: "#e50914",
+            borderWidth: "2px",
         },
     },
     "& input": {
         color: "#fff",
-        padding: "13px",
+        padding: "14px",
+        fontWeight: "400",
     },
     "& label": {
         color: "#aaa",
     },
-    "& .MuiInputLabel-root.Mui-focused, & .MuiInputLabel-shrink": {
-        color: "#ffffff",
+    "& .MuiInputLabel-root.Mui-focused": {
+        color: "#e50914",
+    },
+    "&:hover": {
+        backgroundColor: "rgba(40, 40, 40, 0.5)",
     },
 });
 
-const NextButton = styled(Button)({
+const StyledTabs = styled(Tabs)({
+    marginBottom: "24px",
+    "& .MuiTabs-indicator": {
+        backgroundColor: "#e50914",
+        height: "3px",
+        borderRadius: "3px",
+    },
+});
+
+const StyledTab = styled(Tab)(({ theme, selected }) => ({
+    color: selected ? "#e50914" : "#fff",
+    textTransform: "none",
+    fontWeight: 600,
+    fontSize: "16px",
+    letterSpacing: "0.3px",
+    transition: "all 0.2s",
+    opacity: selected ? 1 : 0.7,
+    "&:hover": {
+        opacity: 1,
+        backgroundColor: "rgba(229, 9, 20, 0.08)",
+    },
+    [theme.breakpoints.down("sm")]: {
+        fontSize: "14px",
+    },
+}));
+
+const NextButton = styled(Button)(({ loading }) => ({
     width: "100%",
-    padding: "10px",
+    padding: loading ? "8px" : "12px",
     borderRadius: "24px",
     backgroundColor: "#e50914",
     color: "#fff",
     fontSize: "1rem",
+    fontWeight: "600",
     textTransform: "none",
+    marginTop: "16px",
     marginBottom: "0px",
+    transition: "all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)",
+    boxShadow: "0 2px 10px rgba(229, 9, 20, 0.2)",
     "&:hover": {
-        backgroundColor: "#C62828",
+        backgroundColor: "#cc0812",
+        boxShadow: "0 4px 15px rgba(229, 9, 20, 0.3)",
+        transform: "translateY(-1px)",
+    },
+    "&:active": {
+        transform: "translateY(1px)",
+        boxShadow: "0 1px 5px rgba(229, 9, 20, 0.2)",
+    },
+    "&.Mui-disabled": {
+        backgroundColor: "rgba(229, 9, 20, 0.6)",
+        color: "rgba(255, 255, 255, 0.7)",
+    },
+}));
+
+const StyledCheckbox = styled(Checkbox)({
+    color: "#7c7c7c",
+    "&.Mui-checked": {
+        color: "#e50914",
     },
 });
-// const OrDivider = styled(Divider)({
-//     color: "#fff",
-//     fontWeight: "bold",
-//     textTransform: "uppercase",
-//     margin: "10px 0",
-// });
+
+const StyledAlert = styled(Alert)(({ severity }) => ({
+    marginBottom: "16px",
+    borderRadius: "8px",
+    fontSize: "0.9rem",
+    backgroundColor: severity === "success" ? "rgba(46, 125, 50, 0.2)" : "rgba(211, 47, 47, 0.2)",
+    color: severity === "success" ? "#81c784" : "#f48fb1",
+    border: `1px solid ${severity === "success" ? "rgba(46, 125, 50, 0.3)" : "rgba(211, 47, 47, 0.3)"}`,
+    "& .MuiAlert-icon": {
+        color: severity === "success" ? "#81c784" : "#f48fb1",
+    },
+}));
 
 const Footer = styled(Box)({
     width: "100%",
@@ -131,8 +190,10 @@ const Footer = styled(Box)({
     textAlign: "center",
     color: "#fff",
     fontSize: "0.875rem",
-    backgroundColor: "#310204",
+    backgroundColor: "rgba(49, 2, 4, 0.95)",
     padding: "18px 0",
+    backdropFilter: "blur(5px)",
+    borderTop: "1px solid rgba(255, 255, 255, 0.05)",
 });
 
 export default function Setpassword() {
@@ -147,187 +208,296 @@ export default function Setpassword() {
     const [statusType, setStatusType] = useState<"success" | "error" | "">(""); // "" means no message
     const router = useRouter();
     const setUser = useUserStore.getState().setUser
+
     const callloginUser = async () => {
+        setLoading(true);
+        setStatusMessage("");
+        setStatusType("");
 
-        setLoading(true)
-        setStatusMessage("")
-        setStatusType("")
         try {
-            const response = await loginUser(userCredentials)
+            const response = await loginUser(userCredentials);
             if (response.body.code === "100.000.000") {
-                const user = response.body.user_data
-                setUser(user) // 👉 Set the user in Zustand store
+                const user = response.body.user_data;
+                setUser(user); // 👉 Set the user in Zustand store
 
-                setStatusMessage("Login successful. Redirecting...")
-                setStatusType("success")
+                setStatusMessage("Login successful! Redirecting you to your dashboard...");
+                setStatusType("success");
 
                 setTimeout(() => {
-                    router.push("/home")
-                }, 2000)
+                    router.push("/home");
+                }, 2000);
             } else {
-                setStatusMessage("Wrong email or password.")
-                setStatusType("error")
+                setStatusMessage("Invalid credentials. Please check your email/phone and password.");
+                setStatusType("error");
             }
         } catch (error) {
-            console.error(error)
-            setStatusMessage("Please check your details and try again.")
-            setStatusType("error")
+            console.error(error);
+            setStatusMessage("Connection error. Please check your internet and try again.");
+            setStatusType("error");
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
     }
 
+    const handleFormSubmit = (e) => {
+        e.preventDefault();
+        callloginUser();
+    };
+
     return (
         <Wrapper>
-            <FormContainer>
-                <LogoContainer>
-                    <Image src="/images/Logo.png" alt="PlayKE Logo" width={90} height={42} priority />
-                </LogoContainer>
+            <Container maxWidth="sm" sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
+                <FormContainer elevation={6}>
+                    <form onSubmit={handleFormSubmit}>
+                        <LogoContainer>
+                            <Image
+                                src="/images/Logo.png"
+                                alt="PlayKE Logo"
+                                width={100}
+                                height={48}
+                                priority
+                                style={{ filter: 'drop-shadow(0 0 8px rgba(229, 9, 20, 0.3))' }}
+                            />
+                        </LogoContainer>
 
-                <Typography variant="h5" sx={{ color: "#fff", fontWeight: "bold", mb: 0 }}>
-                    Signin to PlayKE
-                </Typography>
-                {statusMessage && (
-                    <Alert sx={{ mb: 2 }} severity={statusType || "error"}>{statusMessage}</Alert>
-
-                )}
-
-
-                {/* Auth toggle tabs */}
-                <Tabs
-                    value={authType}
-                    onChange={(e, newValue) => setAuthType(newValue)}
-                    TabIndicatorProps={{ style: { backgroundColor: "#e50914" } }}
-                    centered
-                >
-                    <Tab
-                        label="Email Address"
-                        value="email"
-                        sx={{
-                            color: authType === "email" ? "#e50914" : "#fff",
-                            textTransform: "none",
-                            fontWeight: 600,
-                        }}
-                    />
-                    <Tab
-                        label="Phone Number"
-                        value="phone"
-                        sx={{
-                            color: authType === "phone" ? "#e50914" : "#fff",
-                            textTransform: "none",
-                            fontWeight: 600,
-                        }}
-                    />
-                </Tabs>
-
-
-                {/* Conditionally render fields */}
-                {authType === "email" ? (
-                    <>
-                        <Typography sx={{ color: "#fff", textAlign: "left", mb: 1, mt: 2, fontWeight: 500, fontSize: "13px" }}>
-                            Email Address
-                        </Typography>
-                        <InputField
-                            fullWidth
-                            variant="outlined"
-                            placeholder="Email Address"
-                            InputLabelProps={{ shrink: false }}
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
-                    </>
-                ) : (
-                    <>
-                        <Typography sx={{ color: "#fff", textAlign: "left", mb: 1, mt: 2, fontWeight: 500, fontSize: "13px" }}>
-                            Phone Number
-                        </Typography>
-                        <InputField
-                            fullWidth
-                            variant="outlined"
-                            placeholder="Phone Number"
-                            InputLabelProps={{ shrink: false }}
-                            value={phoneNumber}
-                            onChange={(e) => setPhoneNumber(e.target.value)}
-                        />
-                    </>
-                )}
-
-                {/* Password */}
-                <Typography sx={{ color: "#fff", textAlign: "left", mb: 1, fontWeight: 500, fontSize: "13px" }}>Password</Typography>
-                <InputField
-                    fullWidth
-                    variant="outlined"
-                    placeholder="Password"
-                    InputLabelProps={{ shrink: false }}
-                    type={showPassword ? "text" : "password"}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    InputProps={{
-                        endAdornment: (
-                            <InputAdornment position="end">
-                                <IconButton
-                                    onClick={() => setShowPassword(!showPassword)}
-                                    edge="end"
-                                    sx={{ color: "#fff" }}
-                                >
-                                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                                </IconButton>
-                            </InputAdornment>
-                        ),
-                    }}
-                />
-
-
-                {/* Remember me + Forgot password */}
-                <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
-                    <FormControlLabel
-                        control={<Checkbox sx={{ color: "#7c7c7c" }} />}
-                        label={<Typography sx={{ color: "#7c7c7c", fontSize: "0.875rem" }}>Remember Me</Typography>}
-                    />
-                    <Link href="/auth/resetpassword" passHref legacyBehavior>
                         <Typography
-                            component="a"
-                            sx={{ color: "#e50914", fontSize: "0.875rem", cursor: "pointer", textDecoration: "none", fontWeight: "400" }}
+                            variant="h5"
+                            sx={{
+                                color: "#fff",
+                                fontWeight: "bold",
+                                mb: 2,
+                                letterSpacing: "0.5px",
+                                textShadow: "0 2px 4px rgba(0,0,0,0.3)"
+                            }}
                         >
-                            Forgot Password?
+                            Sign in to PlayKE
                         </Typography>
-                    </Link>
-                </Box>
 
-                <NextButton onClick={callloginUser} variant="contained" disabled={loading}>
-                    {loading ? (
-                        <CircularProgress size="30px" sx={{ color: '#ffffff' }} />
-                    ) : (
-                        "Login"
-                    )}</NextButton>
-                {/* <OrDivider>or</OrDivider>
-                <SocialButton variant="contained">
-                    <GoogleIcon />
-                    Login with Google
-                </SocialButton>
+                        {statusMessage && (
+                            <StyledAlert
+                                severity={statusType || "error"}
+                                icon={false}
+                            >
+                                {statusMessage}
+                            </StyledAlert>
+                        )}
 
-                <SocialButton variant="contained">
-                    <FacebookIcon />
-                    Login with Facebook
-                </SocialButton>
+                        {/* Auth toggle tabs */}
+                        <StyledTabs
+                            value={authType}
+                            onChange={(e, newValue) => setAuthType(newValue)}
+                            centered
+                        >
+                            <StyledTab
+                                label="Email Address"
+                                value="email"
+                                selected={authType === "email"}
+                            />
+                            <StyledTab
+                                label="Phone Number"
+                                value="phone"
+                                selected={authType === "phone"}
+                            />
+                        </StyledTabs>
 
-                <SocialButton variant="contained">
-                    <AppleIcon />
-                    Login with Apple
-                </SocialButton> */}
+                        {/* Conditionally render fields */}
+                        {authType === "email" ? (
+                            <>
+                                <Typography
+                                    sx={{
+                                        color: "#fff",
+                                        textAlign: "left",
+                                        mb: 1,
+                                        fontWeight: 500,
+                                        fontSize: "14px",
+                                        opacity: 0.9,
+                                    }}
+                                >
+                                    Email Address
+                                </Typography>
+                                <InputField
+                                    fullWidth
+                                    variant="outlined"
+                                    placeholder="Enter your email address"
+                                    InputLabelProps={{ shrink: false }}
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    required
+                                />
+                            </>
+                        ) : (
+                            <>
+                                <Typography
+                                    sx={{
+                                        color: "#fff",
+                                        textAlign: "left",
+                                        mb: 1,
+                                        fontWeight: 500,
+                                        fontSize: "14px",
+                                        opacity: 0.9,
+                                    }}
+                                >
+                                    Phone Number
+                                </Typography>
+                                <InputField
+                                    fullWidth
+                                    variant="outlined"
+                                    placeholder="Enter your phone number"
+                                    InputLabelProps={{ shrink: false }}
+                                    value={phoneNumber}
+                                    onChange={(e) => setPhoneNumber(e.target.value)}
+                                    required
+                                />
+                            </>
+                        )}
 
-                {/* Sign up link */}
-                <Typography sx={{ fontSize: "0.875rem", mt: 4 }}>
-                    <span style={{ color: "#7c7c7c", fontWeight: "500" }}>Don’t have an account?</span>
-                    <Link href="/auth/signup" passHref legacyBehavior>
-                        <Typography component="span" sx={{ color: "#fff", fontWeight: "600", ml: 1, cursor: "pointer", textDecoration: "none" }}>
-                            Sign Up
+                        {/* Password */}
+                        <Typography
+                            sx={{
+                                color: "#fff",
+                                textAlign: "left",
+                                mb: 1,
+                                fontWeight: 500,
+                                fontSize: "14px",
+                                opacity: 0.9,
+                            }}
+                        >
+                            Password
                         </Typography>
-                    </Link>
+                        <InputField
+                            fullWidth
+                            variant="outlined"
+                            placeholder="Enter your password"
+                            InputLabelProps={{ shrink: false }}
+                            type={showPassword ? "text" : "password"}
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            onClick={() => setShowPassword(!showPassword)}
+                                            edge="end"
+                                            sx={{
+                                                color: "#fff",
+                                                opacity: 0.7,
+                                                '&:hover': {
+                                                    opacity: 1,
+                                                    backgroundColor: 'rgba(255, 255, 255, 0.1)'
+                                                }
+                                            }}
+                                        >
+                                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                ),
+                            }}
+                        />
+
+                        {/* Remember me + Forgot password */}
+                        <Box
+                            sx={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                alignItems: "center",
+                                width: "100%",
+                                mb: 1,
+                            }}
+                        >
+                            <FormControlLabel
+                                control={<StyledCheckbox />}
+                                label={
+                                    <Typography
+                                        sx={{
+                                            color: "#aaa",
+                                            fontSize: "0.875rem",
+                                            transition: "color 0.2s",
+                                            '&:hover': {
+                                                color: "#fff"
+                                            }
+                                        }}
+                                    >
+                                        Remember Me
+                                    </Typography>
+                                }
+                            />
+                            <Link href="/auth/resetpassword" passHref legacyBehavior>
+                                <Typography
+                                    component="a"
+                                    sx={{
+                                        color: "#e50914",
+                                        fontSize: "0.875rem",
+                                        cursor: "pointer",
+                                        textDecoration: "none",
+                                        fontWeight: "500",
+                                        transition: "all 0.2s",
+                                        '&:hover': {
+                                            textDecoration: "underline",
+                                            textShadow: "0 0 8px rgba(229, 9, 20, 0.4)"
+                                        }
+                                    }}
+                                >
+                                    Forgot Password?
+                                </Typography>
+                            </Link>
+                        </Box>
+
+                        <NextButton
+                            type="submit"
+                            variant="contained"
+                            disabled={loading}
+                            loading={loading}
+                        >
+                            {loading ? (
+                                <CircularProgress size={28} sx={{ color: '#ffffff' }} />
+                            ) : (
+                                "Sign In"
+                            )}
+                        </NextButton>
+
+                        {/* Sign up link */}
+                        <Typography
+                            sx={{
+                                fontSize: "0.9rem",
+                                mt: 4,
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                gap: 1
+                            }}
+                        >
+                            <span style={{ color: "#aaa", fontWeight: "500" }}>
+                                Don't have an account?
+                            </span>
+                            <Link href="/auth/signup" passHref legacyBehavior>
+                                <Typography
+                                    component="span"
+                                    sx={{
+                                        color: "#fff",
+                                        fontWeight: "600",
+                                        cursor: "pointer",
+                                        textDecoration: "none",
+                                        transition: "all 0.2s",
+                                        '&:hover': {
+                                            color: "#e50914",
+                                            textShadow: "0 0 8px rgba(229, 9, 20, 0.4)"
+                                        }
+                                    }}
+                                >
+                                    Sign Up
+                                </Typography>
+                            </Link>
+                        </Typography>
+                    </form>
+                </FormContainer>
+            </Container>
+
+            <Footer>
+                <Typography variant="body2" sx={{ opacity: 0.8 }}>
+                    © {new Date().getFullYear()} PlayKE. All rights reserved.
                 </Typography>
-            </FormContainer>
-
-            <Footer>© {new Date().getFullYear()} PlayKE. All rights reserved.</Footer>
-        </Wrapper >
+            </Footer>
+        </Wrapper>
     );
 }

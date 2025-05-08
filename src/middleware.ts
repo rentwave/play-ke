@@ -3,6 +3,7 @@ import type { NextRequest } from "next/server";
 
 export function middleware(req: NextRequest) {
   const allowedOrigins = [
+    "http://localhost:3002",
     "http://localhost:3001",
     "http://localhost:3000",
     "https://play-inc.254.radio"  // Added your production domain

@@ -8,14 +8,18 @@ import MovieIcon from "@mui/icons-material/Movie";
 import PodcastIcon from "@mui/icons-material/Podcasts";
 
 const SidebarWrapper = styled(Box)({
+    position: "fixed",
+    top: 0,
+    left: 0,
     width: "250px",
-    backgroundColor: "#000",
+    height: "100vh",
+    backgroundColor: "#1A1A1A",
     color: "#fff",
     display: "flex",
     flexDirection: "column",
-    alignItems: "flex-start", // Align items to start
+    alignItems: "center",
     padding: "20px",
-    minHeight: "100vh",
+    zIndex: 1200,
 });
 
 const MenuItem = styled(Box)({

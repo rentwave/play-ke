@@ -1,17 +1,31 @@
 import React, { useRef, useState, useEffect } from "react";
 import {
-    Table, TableBody, TableCell, TableContainer,
-    TableHead, TableRow, Paper, Avatar, IconButton,
-    Typography, Button, Box, CircularProgress, Chip
+    Box,
+    Typography,
+    Button,
+    CircularProgress,
+    Chip,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Paper,
+    Avatar,
+    IconButton
 } from "@mui/material";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import RefreshIcon from "@mui/icons-material/Refresh";
+import AddTwoToneIcon from "@mui/icons-material/AddTwoTone";
 import { fetchMusic } from "@/lib/apiService";
 import { useUserStore } from "@/store";
 import MusicModal from "./PlayerModal";
-import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 import UploadMusicModal from "./UploadModal";
-import RefreshIcon from '@mui/icons-material/Refresh';
-type MusicItem = {
+import VideoLibraryIcon from "./VideoIcon";
+import PodcastLibraryIcon from "./PodcastIcon";
+
+type VideoItem = {
     id: string;
     title: string;
     file_url: string;
@@ -20,90 +34,72 @@ type MusicItem = {
     date_created: string;
 };
 
-const PodcastTable: React.FC = () => {
+const VideoTable: React.FC = () => {
     const [isUploadModalOpen, setUploadModalOpen] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [loading, setLoading] = useState(false);
-    const [music, setMusic] = useState<MusicItem[]>([]);
-    // const [statusMessage, setStatusMessage] = useState("");
-    const user = useUserStore.getState().user
-    const [currentAudioUrl, setCurrentAudioUrl] = useState<string>("");
+    const [podcasts, setpodcasts] = useState<VideoItem[]>([]);
+    const user = useUserStore.getState().user;
+    const [currentVideoUrl, setCurrentVideoUrl] = useState<string>("");
     const [currentTitle, setCurrentTitle] = useState<string>("");
     const [open, setOpen] = useState(false);
+
     const handlePlayClick = (fileUrl: string, fileTitle: string) => {
-        setCurrentAudioUrl(fileUrl);
-        setCurrentTitle(fileTitle)
+        setCurrentVideoUrl(fileUrl);
+        setCurrentTitle(fileTitle);
         setOpen(true);
     };
 
     const handleOpenUploadModal = () => setUploadModalOpen(true);
     const handleCloseUploadModal = () => setUploadModalOpen(false);
+
     const data = {
         "user_id": user?.user_id,
-        "media_filter": "Podcasts",
+        "media_filter": "Video",
         "draw": 1,
         "columns": [
             {
                 "data": "id",
                 "name": "",
                 "orderable": true,
-                "search": {
-                    "regex": false,
-                    "value": ""
-                },
+                "search": { "regex": false, "value": "" },
                 "searchable": true
             },
             {
                 "data": "media_type",
-                "name": "",
+                "name": "video",
                 "orderable": true,
-                "search": {
-                    "regex": false,
-                    "value": ""
-                },
+                "search": { "regex": false, "value": "" },
                 "searchable": true
             },
             {
                 "data": "state__name",
                 "name": "",
                 "orderable": true,
-                "search": {
-                    "regex": false,
-                    "value": ""
-                },
+                "search": { "regex": false, "value": "" },
                 "searchable": true
             },
             {
                 "data": "date_created",
                 "name": "",
                 "orderable": true,
-                "search": {
-                    "regex": false,
-                    "value": ""
-                },
+                "search": { "regex": false, "value": "" },
                 "searchable": true
             },
             {
                 "data": "file_url",
                 "name": "",
                 "orderable": true,
-                "search": {
-                    "regex": false,
-                    "value": ""
-                },
+                "search": { "regex": false, "value": "" },
                 "searchable": true
             },
             {
                 "data": "title",
                 "name": "",
                 "orderable": true,
-                "search": {
-                    "regex": false,
-                    "value": ""
-                },
+                "search": { "regex": false, "value": "" },
                 "searchable": true
             }
-
         ],
         "state_filter": "",
         "order": [
@@ -118,255 +114,355 @@ const PodcastTable: React.FC = () => {
             "value": "",
             "regex": false
         },
-    }
-    const callFetchMusic = async () => {
-        if (!user?.user_id) return
+    };
 
-        setLoading(true)
+    const fetchpodcasts = async () => {
+        if (!user?.user_id) return;
+        setLoading(true);
         try {
-            const response = await fetchMusic(data)
+            const response = await fetchMusic(data);
             if (response.status_code === 200) {
-                console.log("artist response", response)
-                setMusic(response.body.data)
-                // setMusic([])
-            } else {
-                // setStatusMessage("An error occurred")
+                setpodcasts(response.body.data);
             }
         } catch (error) {
-            console.error(error)
-            // setStatusMessage("An unexpected error occurred")
+            console.error("Failed to fetch podcasts:", error);
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
-    }
+    };
 
     useEffect(() => {
-        callFetchMusic()
-    }, [user?.user_id])
+        fetchpodcasts();
+    }, [user?.user_id]);
 
-    return (<>
-        <Box
-            sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                padding: 2,
-                backgroundColor: "#1A1A1A",
-                borderRadius: 4,
-                boxShadow: 0,
-            }}
-        >
-            {/* Refresh Button */}
-            <Button
-                onClick={callFetchMusic}
-                variant="outlined"
+    return (
+        <Box sx={{ width: "100%" }}>
+            {/* Header with title and actions */}
+            <Box
                 sx={{
-                    borderRadius: 20,
-                    color: "#fff",
-                    borderColor: "#fff",
-                    backgroundColor: "transparent",
-                    '&:hover': {
-                        backgroundColor: "rgba(255, 255, 255, 0.1)",
-                        borderColor: "#fff",
-                    },
                     display: "flex",
+                    justifyContent: "space-between",
                     alignItems: "center",
-                    minWidth: { xs: 0, sm: "auto" }, // remove button padding on mobile
-                    padding: { xs: 1, sm: "6px 16px" }, // smaller padding on mobile
+                    mb: 3,
                 }}
             >
-                <RefreshIcon sx={{ mr: { xs: 0, sm: 1 } }} />
                 <Typography
-                    variant="body2"
+                    variant="h5"
                     sx={{
-                        display: { xs: "none", sm: "block" }, // hide text on mobile
-                        textTransform: "none",
-                        fontWeight: 600,
-                        color: "inherit",
+                        fontWeight: 700,
+                        color: "#fff",
+                        fontSize: { xs: "1.25rem", md: "1.5rem" }
                     }}
                 >
-                    Refresh Content
+                    My Podcasts
                 </Typography>
-            </Button>
 
-            {/* Upload Button */}
-            <Button
-                onClick={handleOpenUploadModal}
-                variant="outlined"
-                sx={{
-                    borderRadius: 20,
-                    color: "#fff",
-                    borderColor: "#fff",
-                    backgroundColor: "transparent",
-                    '&:hover': {
-                        backgroundColor: "rgba(255, 255, 255, 0.1)",
-                        borderColor: "#fff",
-                    },
-                    display: "flex",
-                    alignItems: "center",
-                    minWidth: { xs: 0, sm: "auto" },
-                    padding: { xs: 1, sm: "6px 16px" },
-                }}
-            >
-                <AddTwoToneIcon sx={{ mr: { xs: 0, sm: 1 } }} />
-                <Typography
-                    variant="body2"
-                    sx={{
-                        display: { xs: "none", sm: "block" },
-                        textTransform: "none",
-                        fontWeight: 600,
-                        color: "inherit",
-                    }}
-                >
-                    Upload New
-                </Typography>
-            </Button>
-        </Box>
-        <Box>
-            {loading ? (<Box
-                sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: 300,
-                    backgroundColor: "#1A1A1A",
-                    borderRadius: 2,
-                    boxShadow: 3,
-                }}
-            >
-                <CircularProgress size={40} sx={{ color: "#fff" }} />
-            </Box>) : music.length === 0 ? (
-                <Box
-                    sx={{
-                        width: "100%",
-                        height: 400,
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        borderRadius: 4,
-                        backgroundColor: "#1A1A1A",
-                        boxShadow: 1,
-                        textAlign: "center",
-                        p: 2,
-                    }}
-                >
-                    <Typography variant="body2" sx={{ color: "#ccc", mb: 2 }}>
-                        No podcasts uploaded
-                    </Typography>
-
+                <Box sx={{ display: "flex", gap: 2 }}>
+                    {/* Refresh Button */}
                     <Button
+                        onClick={fetchpodcasts}
                         variant="outlined"
+                        startIcon={<RefreshIcon />}
                         sx={{
-                            color: "#000",
-                            borderColor: "#ccc",
-                            backgroundColor: "#fff",
+                            borderRadius: 20,
+                            color: "#fff",
+                            borderColor: "rgba(255, 255, 255, 0.3)",
+                            backgroundColor: "rgba(255, 255, 255, 0.05)",
                             '&:hover': {
-                                backgroundColor: "#f1f1f1",
+                                backgroundColor: "rgba(255, 255, 255, 0.1)",
+                                borderColor: "#fff",
                             },
+                            typography: "body2",
+                            textTransform: "none",
+                            fontWeight: 600,
+                            display: { xs: "none", sm: "flex" }
                         }}
-                        onClick={handleOpenUploadModal}
                     >
-                        <Typography variant="body2" sx={{ textTransform: "none", fontWeight: 600 }}>
-                            Upload Podcasts
-                        </Typography>
+                        Refresh
                     </Button>
 
-                    <input
-                        type="file"
-                        accept="audio/*"
-                        style={{ display: "none" }}
-                        ref={fileInputRef}
-                        onChange={(e) => {
-                            const file = e.target.files?.[0];
-                            if (file) {
-                                console.log("Selected file:", file.name);
-                            }
+                    {/* Mobile-only refresh icon */}
+                    <IconButton
+                        onClick={fetchpodcasts}
+                        sx={{
+                            color: "#fff",
+                            display: { xs: "flex", sm: "none" },
+                            backgroundColor: "rgba(255, 255, 255, 0.05)",
+                            '&:hover': { backgroundColor: "rgba(255, 255, 255, 0.1)" }
                         }}
-                    />
+                    >
+                        <RefreshIcon />
+                    </IconButton>
+
+                    {/* Upload Button */}
+                    <Button
+                        onClick={handleOpenUploadModal}
+                        variant="contained"
+                        startIcon={<AddTwoToneIcon />}
+                        sx={{
+                            borderRadius: 20,
+                            backgroundColor: "#E50914", // Netflix red
+                            color: "#fff",
+                            '&:hover': {
+                                backgroundColor: "#B8070E", // Darker red on hover
+                            },
+                            typography: "body2",
+                            textTransform: "none",
+                            fontWeight: 600,
+                            boxShadow: 2,
+                            display: { xs: "none", sm: "flex" }
+                        }}
+                    >
+                        Upload Podcast
+                    </Button>
+
+                    {/* Mobile-only upload icon */}
+                    <IconButton
+                        onClick={handleOpenUploadModal}
+                        sx={{
+                            color: "#fff",
+                            display: { xs: "flex", sm: "none" },
+                            backgroundColor: "#E50914",
+                            '&:hover': { backgroundColor: "#B8070E" }
+                        }}
+                    >
+                        <AddTwoToneIcon />
+                    </IconButton>
                 </Box>
+            </Box>
 
-            ) : (
-                <TableContainer
-                    component={Paper}
-                    sx={{
-                        borderRadius: 2,
-                        boxShadow: 3,
-                        backgroundColor: "#1A1A1A",
-                    }}
-                >
-                    <Table>
-                        <TableHead>
-                            <TableRow sx={{ borderBottom: "1px solid #373737" }}>
-                                {["Play", "Title", "Upload Date", "Media Type", "Visibility"].map((header) => (
-                                    <TableCell
-                                        key={header}
-                                        sx={{ color: "#fff", borderBottom: "none" }} // removes individual cell borders
-                                    >
-                                        {header}
-                                    </TableCell>
-                                ))}
-                            </TableRow>
-                        </TableHead>
+            {/* Content area */}
+            <Box
+                sx={{
+                    backgroundColor: "#1A1A1A",
+                    borderRadius: 3,
+                    boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+                    overflow: "hidden",
+                    p: { xs: 1, sm: 2 }
+                }}
+            >
+                {loading ? (
+                    <Box
+                        sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            height: 630,
+                            width: "100%"
+                        }}
+                    >
+                        <CircularProgress size={40} sx={{ color: "#E50914" }} />
+                    </Box>
+                ) : podcasts.length === 0 ? (
+                    <Box
+                        sx={{
+                            width: "100%",
+                            height: 630,
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            textAlign: "center",
+                            p: 3,
+                        }}
+                    >
+                        <Box sx={{ mb: 0, color: "rgba(255,255,255,0.7)" }}>
+                            <PodcastLibraryIcon sx={{ fontSize: 60 }} />
+                        </Box>
 
-                        <TableBody>
-                            {music.map((music) => (
-                                <TableRow
-                                    key={music?.id}
-                                    sx={{
-                                        borderBottom: "1px dashed #373737",
-                                        "&:last-child": { borderBottom: "none" },
-                                    }}
-                                >
-                                    <TableCell sx={{ color: "#fff", borderBottom: "none" }}>
-                                        {/* <Avatar
-                                            src="https://i1.sndcdn.com/artworks-000161197658-gzvj7z-t500x500.jpg"
-                                            variant="rounded"
-                                            sx={{ mr: 1, bgcolor: "#333" }}
-                                        >
-                                            <IconButton sx={{ color: "#fff" }}>
-                                                <PlayArrowIcon />
-                                            </IconButton>
-                                        </Avatar> */}
-                                        <Avatar src="" sx={{ mr: 1, bgcolor: "#333" }}>
-                                            <IconButton sx={{ color: "#fff" }} onClick={() => handlePlayClick(music.file_url, music.title)}>
-                                                <PlayArrowIcon />
-                                            </IconButton>
-                                        </Avatar>
-                                    </TableCell>
-                                    <TableCell sx={{ color: "#fff", borderBottom: "none" }}>{music.title}</TableCell>
-                                    <TableCell sx={{ color: "#fff", borderBottom: "none" }}>{music.date_created}</TableCell>
-                                    <TableCell sx={{ color: "#fff", borderBottom: "none" }}>{music.media_type}</TableCell>
-                                    <TableCell sx={{ borderBottom: "none" }}>
-                                        <Chip
-                                            label={music.state__name === "Active" ? "Visible" : "Hidden"}
+                        <Typography variant="h6" sx={{ color: "#fff", mb: 1 }}>
+                            No podcasts yet
+                        </Typography>
+
+                        <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.7)", mb: 3, maxWidth: 450 }}>
+                            Upload your first podcast to start sharing with your audience. Supported formats include MP4, MOV, and AVI.
+                        </Typography>
+
+                        <Button
+                            variant="contained"
+                            startIcon={<AddTwoToneIcon />}
+                            onClick={handleOpenUploadModal}
+                            sx={{
+                                borderRadius: 20,
+                                backgroundColor: "#E50914",
+                                color: "#fff",
+                                '&:hover': {
+                                    backgroundColor: "#B8070E",
+                                },
+                                typography: "body2",
+                                textTransform: "none",
+                                fontWeight: 600,
+                                px: 3,
+                                py: 1
+                            }}
+                        >
+                            Upload Your First Video
+                        </Button>
+
+                        <input
+                            type="file"
+                            accept="video/*"
+                            style={{ display: "none" }}
+                            ref={fileInputRef}
+                        />
+                    </Box>
+                ) : (
+                    <TableContainer component={Paper} sx={{ backgroundColor: "transparent", boxShadow: "none" }}>
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    {["", "Title", "Upload Date", "Type", "Status"].map((header) => (
+                                        <TableCell
+                                            key={header}
                                             sx={{
-                                                backgroundColor: music.state__name === "Active" ? "#00C853" : "#E50914", // green or Netflix red
-                                                color: "#fff",
-                                                fontWeight: 600,
+                                                color: "rgba(255,255,255,0.7)",
+                                                borderBottom: "1px solid rgba(255,255,255,0.1)",
+                                                py: 2,
+                                                fontSize: "0.875rem",
+                                                fontWeight: 600
                                             }}
-                                            size="small"
-                                        />
-                                    </TableCell>
+                                        >
+                                            {header}
+                                        </TableCell>
+                                    ))}
                                 </TableRow>
-                            ))}
-                        </TableBody>
+                            </TableHead>
 
-                    </Table>
-                </TableContainer>
+                            <TableBody>
+                                {podcasts.map((video) => (
+                                    <TableRow
+                                        key={video.id}
+                                        sx={{
+                                            '&:hover': { backgroundColor: "rgba(255,255,255,0.03)" },
+                                            transition: "background-color 0.2s"
+                                        }}
+                                    >
+                                        <TableCell
+                                            sx={{
+                                                borderBottom: "1px solid rgba(255,255,255,0.05)",
+                                                width: 60,
+                                                py: 1.5
+                                            }}
+                                        >
+                                            <IconButton
+                                                onClick={() => handlePlayClick(video.file_url, video.title)}
+                                                sx={{
+                                                    backgroundColor: "rgba(229,9,20,0.1)",
+                                                    '&:hover': { backgroundColor: "rgba(229,9,20,0.2)" },
+                                                    color: "#E50914",
+                                                    transition: "all 0.2s"
+                                                }}
+                                                size="small"
+                                                aria-label="play video"
+                                            >
+                                                <PlayArrowIcon />
+                                            </IconButton>
+                                        </TableCell>
 
-            )}
-            <UploadMusicModal open={isUploadModalOpen} handleClose={handleCloseUploadModal} />
+                                        <TableCell
+                                            sx={{
+                                                color: "#fff",
+                                                borderBottom: "1px solid rgba(255,255,255,0.05)",
+                                                py: 1.5,
+                                                fontWeight: 500
+                                            }}
+                                        >
+                                            <Box sx={{ display: "flex", alignItems: "center" }}>
+                                                <Avatar
+                                                    variant="rounded"
+                                                    sx={{
+                                                        width: 48,
+                                                        height: 36,
+                                                        backgroundColor: "#333",
+                                                        mr: 2,
+                                                        display: { xs: "none", sm: "flex" }
+                                                    }}
+                                                >
+                                                    <VideoLibraryIcon sx={{ fontSize: 18, opacity: 0.8 }} />
+                                                </Avatar>
+                                                <Typography
+                                                    variant="body2"
+                                                    sx={{
+                                                        fontWeight: 500,
+                                                        overflow: "hidden",
+                                                        textOverflow: "ellipsis",
+                                                        whiteSpace: "nowrap",
+                                                        maxWidth: { xs: 120, sm: 200, md: 300 }
+                                                    }}
+                                                >
+                                                    {video.title}
+                                                </Typography>
+                                            </Box>
+                                        </TableCell>
+
+                                        <TableCell
+                                            sx={{
+                                                color: "rgba(255,255,255,0.7)",
+                                                borderBottom: "1px solid rgba(255,255,255,0.05)",
+                                                py: 1.5,
+                                                fontSize: "0.875rem"
+                                            }}
+                                        >
+                                            {new Date(video.date_created).toLocaleDateString('en-US', {
+                                                year: 'numeric',
+                                                month: 'short',
+                                                day: 'numeric'
+                                            })}
+                                        </TableCell>
+
+                                        <TableCell
+                                            sx={{
+                                                color: "rgba(255,255,255,0.7)",
+                                                borderBottom: "1px solid rgba(255,255,255,0.05)",
+                                                py: 1.5,
+                                                fontSize: "0.875rem"
+                                            }}
+                                        >
+                                            {video.media_type}
+                                        </TableCell>
+
+                                        <TableCell
+                                            sx={{
+                                                borderBottom: "1px solid rgba(255,255,255,0.05)",
+                                                py: 1.5
+                                            }}
+                                        >
+                                            <Chip
+                                                label={video.state__name === "Active" ? "Public" : "Private"}
+                                                size="small"
+                                                sx={{
+                                                    backgroundColor: video.state__name === "Active"
+                                                        ? "rgba(0,200,83,0.1)"
+                                                        : "rgba(229,9,20,0.1)",
+                                                    color: video.state__name === "Active" ? "#00C853" : "#E50914",
+                                                    fontWeight: 600,
+                                                    fontSize: "0.75rem",
+                                                    height: 24
+                                                }}
+                                            />
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                )}
+            </Box>
+
+            {/* Modals */}
+            <UploadMusicModal
+                open={isUploadModalOpen}
+                handleClose={handleCloseUploadModal}
+            />
+
             <MusicModal
                 open={open}
                 onClose={() => setOpen(false)}
-                audioUrl={currentAudioUrl}
+                audioUrl={currentVideoUrl}
                 title={currentTitle}
             />
-
         </Box>
-    </>);
-
+    );
 };
 
-export default PodcastTable;
+export default VideoTable;

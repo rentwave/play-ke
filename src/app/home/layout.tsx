@@ -5,6 +5,7 @@ import { styled } from "@mui/material/styles";
 import Sidebar from "../Components/Layout/Sidebar";
 import Topbar from "../Components/Layout/Topbar";
 import Footer from "../Components/Layout/Footer";
+import MobileTopbar from "../Components/Layout/MobileTopbar";
 
 const Wrapper = styled("div")({
   minHeight: "100vh",
@@ -14,32 +15,38 @@ const Wrapper = styled("div")({
 });
 
 const Content = styled(Box)({
-  flex: 1,
-  display: "flex",
-  flexDirection: "column",
+  // flex: 1,
+  // display: "flex",
+  // flexDirection: "column",
   backgroundColor: "#000",
   color: "#fff",
   minHeight: "100vh",
+  // marginLeft: "250px",
 });
+
 
 interface LayoutProps {
   children: ReactNode;
 }
 
 export default function Layout({ children }: LayoutProps) {
-  const theme = useTheme();  // Get theme to access breakpoints
-  const isMobileOrTablet = useMediaQuery(theme.breakpoints.down("md"));  // Checks if the screen size is mobile/tablet
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+
+  if (isMobile) {
+    return (
+      <Box sx={{ backgroundColor: "#000", color: "#fff", minHeight: "100vh" }}>
+        <MobileTopbar />
+        <Box sx={{ padding: 2 }}>{children}</Box>
+      </Box>
+    );
+  }
 
   return (
-    <Wrapper>
-      {/* Conditionally render the Sidebar based on the screen size */}
-      {!isMobileOrTablet && <Sidebar />} {/* Only render Sidebar if the screen is larger than "md" */}
-
-      <Content>
-        <Topbar />
-        <Box>{children}</Box>
-        <Footer />
-      </Content>
-    </Wrapper>
+    < Content >
+      <Topbar />
+      <Box>{children}</Box>
+      <Footer />
+    </Content >
   );
 }

@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import {
     AppBar, Toolbar, Box, TextField, Button, IconButton, Drawer,
     Link, useMediaQuery, useTheme, Stack, Avatar,
-    CircularProgress,
+    CircularProgress, Tooltip,
     Typography
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
@@ -295,10 +295,41 @@ export default function Topbar({ artist }: Props) {
                 {/* Desktop view: Right-aligned buttons (Donate, Post Content, Topup) */}
                 {!isMobile && (
                     <Box display="flex" gap={2} alignItems="center">
-                        <Link href="/home">
-                            <PostContentButton startIcon={<HomeOutlinedIcon />}>
-                                Home
-                            </PostContentButton></Link>
+                        <Link sx={{ textTransform: "none", textDecoration: "none", }} href="/home">
+                            <Tooltip title="Refresh Content">
+                                <Button
+                                    variant="outlined"
+                                    size={isMobile ? "small" : "medium"}
+                                    sx={{
+                                        borderRadius: 8,
+                                        color: "#fff",
+                                        borderColor: "rgba(255,255,255,0.3)",
+                                        backgroundColor: "rgba(255,255,255,0.05)",
+                                        '&:hover': {
+                                            backgroundColor: "rgba(255,255,255,0.1)",
+                                            borderColor: "rgba(255,255,255,0.5)",
+                                        },
+                                        display: "flex",
+                                        alignItems: "center",
+                                        minWidth: { xs: 0, sm: "auto" },
+                                        px: { xs: 1.5, sm: 2 },
+                                        py: { xs: 0.7, sm: 1 },
+                                    }}
+                                >
+                                    <HomeOutlinedIcon fontSize={isMobile ? "small" : "medium"} sx={{ mr: { xs: 0, sm: 1 } }} />
+                                    <Typography
+                                        variant="body2"
+                                        sx={{
+                                            display: { xs: "none", sm: "block" },
+                                            textTransform: "none",
+                                            fontWeight: 500,
+                                        }}
+                                    >
+                                        Home
+                                    </Typography>
+                                </Button>
+                            </Tooltip></Link>
+
 
 
                         {/* Post Content Button */}
